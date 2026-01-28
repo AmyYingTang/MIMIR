@@ -1,0 +1,126 @@
+# MIMIR - Bilingual Edition
+
+> **M**ethodology for **I**mplementation, **M**anagement & **I**ntelligent **R**eference
+
+*Like Odin consulting the guardian of the Well of Wisdom, consult MIMIR for your next project.*
+
+---
+
+## 🌍 Language / 语言
+
+This repository contains MIMIR methodology in two languages:
+
+| Language | Directory | Status |
+|----------|-----------|--------|
+| **English** | [`/en`](./en/) | ✅ Complete |
+| **中文 (Chinese)** | [`/zh`](./zh/) | ✅ Complete |
+
+---
+
+## Quick Start
+
+### English Users
+→ Start with [`/en/MIMIR-README.md`](./en/MIMIR-README.md)
+
+### 中文用户
+→ 从 [`/zh/MIMIR-README.md`](./zh/MIMIR-README.md) 开始
+
+---
+
+## What is MIMIR?
+
+MIMIR is an **executable software project startup methodology** designed for AI Agents (like Claude) and human developers.
+
+| Traditional Methodology | MIMIR |
+|-------------------------|-------|
+| Static knowledge that gets outdated | Continuously updated through retrospectives |
+| Scattered concepts | Structured checklists + decision trees |
+| Read it all, still don't know what to do | Directly produces project documentation |
+
+---
+
+## Structure Overview
+
+```
+MIMIR/
+├── en/                          # English version
+│   ├── MIMIR-README.md          # Entry point
+│   └── skills/
+│       ├── SKILL-INDEX.md
+│       ├── project-kickoff/
+│       │   ├── SKILL.md
+│       │   ├── enterprise-web/  # Enterprise Web guide
+│       │   └── templates/       # Document templates
+│       └── retro/               # Retrospective tools
+│
+└── zh/                          # 中文版本
+    ├── MIMIR-README.md          # 入口
+    └── skills/
+        ├── SKILL-INDEX.md
+        ├── project-kickoff/
+        │   ├── SKILL.md
+        │   ├── enterprise-web/  # 企业级 Web 指南
+        │   └── templates/       # 文档模板
+        └── retro/               # 复盘工具
+```
+
+---
+
+## How to Use
+
+### With Claude (Recommended)
+
+1. Create a Project at [Claude.ai](https://claude.ai)
+2. Upload files from your preferred language folder
+3. Start conversation:
+
+**English:**
+```
+I want to start a new project. Please use MIMIR to help me with project planning.
+
+Project brief: [Describe your project]
+```
+
+**中文:**
+```
+我要启动一个新项目，请用 MIMIR 帮我进行项目规划。
+
+项目简介：[描述你的项目]
+```
+
+---
+
+## Currently Supported
+
+| Project Type | Status |
+|--------------|:------:|
+| Enterprise Web Projects | ✅ |
+| Mobile Apps | 🚧 Planned |
+| CLI Tools | 🚧 Planned |
+| Data Pipelines | 🚧 Planned |
+
+---
+
+## Contributing
+
+MIMIR evolves through project retrospectives. Welcome to:
+
+1. **Use and provide feedback** - Share your experience in Issues
+2. **Contribute retrospectives** - Use the retro guide, submit PRs
+3. **Add translations** - Help translate to other languages
+4. **Extend project types** - Contribute Skills for mobile, CLI, etc.
+
+---
+
+## License
+
+MIT
+
+---
+
+## Version History
+
+| Version | Date | Updates |
+|---------|------|---------|
+| v1.1 | 2025-01-27 | Added testing strategy and documentation delivery phases |
+| v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |
