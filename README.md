@@ -51,6 +51,8 @@ MIMIR/
 │       │   ├── SKILL.md
 │       │   ├── enterprise-web/  # Enterprise Web guide
 │       │   └── templates/       # Document templates
+│       ├── meta-knowledge/      # 🆕 Meta-knowledge extraction
+│       │   └── SKILL.md
 │       └── retro/               # Retrospective tools
 │
 └── zh/                          # 中文版本
@@ -61,6 +63,8 @@ MIMIR/
         │   ├── SKILL.md
         │   ├── enterprise-web/  # 企业级 Web 指南
         │   └── templates/       # 文档模板
+        ├── meta-knowledge/      # 🆕 元知识提炼
+        │   └── SKILL.md
         └── retro/               # 复盘工具
 ```
 
@@ -95,6 +99,7 @@ Project brief: [Describe your project]
 | Project Type | Status |
 |--------------|:------:|
 | Enterprise Web Projects | ✅ |
+| Meta-Knowledge Extraction | ✅ 🆕 |
 | Mobile Apps | 🚧 Planned |
 | CLI Tools | 🚧 Planned |
 | Data Pipelines | 🚧 Planned |
@@ -122,5 +127,7 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
+| v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill for AI collaboration insights |
+| v1.2 | 2025-01-28 | Added document consistency management templates |
 | v1.1 | 2025-01-27 | Added testing strategy and documentation delivery phases |
 | v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |
