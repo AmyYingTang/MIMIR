@@ -209,5 +209,8 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
+| v1.4 | 2025-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill, based on Task Decomposition validation practice |
+| v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/) |
+| v1.2 | 2025-01-28 | Added document consistency management templates |
 | v1.1 | 2025-01-27 | Added testing strategy and documentation delivery phases |
 | v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |

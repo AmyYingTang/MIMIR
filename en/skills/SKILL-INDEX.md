@@ -55,46 +55,43 @@ This is an **executable software project startup methodology**, different from t
 ## Skill System Structure
 
 ```
-skills/
-├── SKILL-INDEX.md                          # 📍 You are here - Entry document
+MIMIR/
+├── MIMIR-README.md                         # MIMIR Introduction
+├── CORE-PRINCIPLES.md                      # 🆕 Core Principles (Minimum User Input, etc.)
 │
-├── project-kickoff/                        # Project startup methodology
-│   ├── SKILL.md                            # Main document - Project classification decision tree
-│   │
-│   ├── enterprise-web/                     # Enterprise Web Projects
-│   │   ├── SKILL.md                        # ⭐ Main guide
-│   │   ├── phase-1-requirements.md         # Requirements analysis phase
-│   │   ├── phase-2-tech-selection.md       # Technology selection phase
-│   │   ├── phase-3-system-design.md        # System design phase
-│   │   ├── phase-4-testing.md              # Testing strategy phase
-│   │   ├── phase-5-documentation.md        # Documentation delivery phase
-│   │   └── checklists/                     # Checklists
-│   │       ├── security-checklist.md       # Security checklist
-│   │       ├── production-readiness.md     # Production readiness checklist
-│   │       └── enterprise-concerns.md      # Enterprise concerns
-│   │
-│   ├── mobile-app/                         # Mobile Apps (Future expansion)
-│   │   └── SKILL.md
-│   │
-│   ├── cli-tool/                           # CLI Tools (Future expansion)
-│   │   └── SKILL.md
-│   │
-│   └── templates/                          # Document templates
-│       ├── prd-template.md                 # PRD template
-│       ├── tech-selection-template.md      # Tech selection template
-│       ├── database-design-template.md     # Database design template
-│       ├── api-design-template.md          # API design template
-│       ├── project-control-template.md     # Project control document template
-│       ├── doc-dependencies-template.md    # 🆕 Document dependencies template
-│       └── change-review-checklist-template.md  # 🆕 Change review checklist template
-│
-├── meta-knowledge/                         # 🆕 Meta-knowledge extraction
-│   └── SKILL.md                            # Meta-knowledge extraction skill
-│
-└── retro/                                  # Retrospective extraction tool
-    ├── RETRO-GUIDE.md                      # Retrospective guide document
-    ├── RETRO-TEMPLATE.md                   # Retrospective record template
-    └── retro-doc-consistency.md            # 🆕 Document consistency retrospective
+└── skills/
+    ├── SKILL-INDEX.md                      # 📍 You are here - Entry document
+    │
+    ├── project-kickoff/                    # Project startup methodology
+    │   ├── SKILL.md                        # Main document - Project classification decision tree
+    │   │
+    │   ├── enterprise-web/                 # Enterprise Web Projects
+    │   │   ├── SKILL.md                    # ⭐ Main guide
+    │   │   ├── phase-1-requirements.md     # Requirements analysis phase
+    │   │   ├── phase-2-tech-selection.md   # Technology selection phase
+    │   │   ├── phase-3-system-design.md    # System design phase
+    │   │   ├── phase-4-testing.md          # Testing strategy phase
+    │   │   ├── phase-5-documentation.md    # Documentation delivery phase
+    │   │   └── checklists/                 # Checklists
+    │   │       └── enterprise-concerns.md  # Enterprise concerns
+    │   │
+    │   └── templates/                      # Document templates
+    │       ├── prd-template.md
+    │       ├── project-control-template.md
+    │       ├── doc-dependencies-template.md
+    │       └── change-review-checklist-template.md
+    │
+    ├── claude-code-prompt/                 # 🆕 Claude Code Prompt Design
+    │   ├── SKILL.md                        # Main guide - Prompt structure and principles
+    │   └── templates/                      # Prompt templates
+    │       └── 01-project-init-template.md # Project initialization template
+    │
+    ├── meta-knowledge/                     # Meta-knowledge extraction
+    │   └── SKILL.md                        # Meta-knowledge extraction skill
+    │
+    └── retro/                              # Retrospective extraction tool
+        ├── RETRO-GUIDE.md                  # Retrospective guide document
+        └── retro-doc-consistency.md        # Document consistency retrospective
 ```
 
 ---
@@ -104,6 +101,7 @@ skills/
 | Skill | Status | Applicable Scenarios |
 |-------|:------:|----------------------|
 | **Enterprise Web Projects** | ✅ Available | B2B SaaS, internal management systems, platform products |
+| **Claude Code Prompt** | ✅ Available | Code generation using Claude Code |
 | **Meta-Knowledge Extraction** | ✅ Available | Extract reusable insights from collaboration history |
 | Mobile Apps | ⬜ Planned | iOS/Android native or cross-platform |
 | CLI Tools | ⬜ Planned | Command-line tools, scripts |
@@ -135,3 +133,4 @@ skills/
 | v1.1 | 2025-01-27 | Added testing strategy (phase-4-testing.md) and documentation delivery (phase-5-documentation.md) phases |
 | v1.2 | 2025-01-28 | Added document consistency management templates (doc-dependencies-template.md, change-review-checklist-template.md) |
 | v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/), exploring knowledge extraction in AI collaboration |
+| v1.4 | 2025-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill, based on Task Decomposition validation practice |

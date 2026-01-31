@@ -55,46 +55,43 @@
 ## Skill 体系结构
 
 ```
-skills/
-├── SKILL-INDEX.md                          # 📍 你在这里 - 入口文档
+MIMIR/
+├── MIMIR-README.md                         # MIMIR 简介
+├── CORE-PRINCIPLES.md                      # 🆕 核心原则（用户输入最小化等）
 │
-├── project-kickoff/                        # 项目启动方法论
-│   ├── SKILL.md                            # 主文档 - 项目分类决策树
-│   │
-│   ├── enterprise-web/                     # 企业级 Web 项目
-│   │   ├── SKILL.md                        # ⭐ 主指南
-│   │   ├── phase-1-requirements.md         # 需求分析阶段
-│   │   ├── phase-2-tech-selection.md       # 技术选型阶段
-│   │   ├── phase-3-system-design.md        # 系统设计阶段
-│   │   ├── phase-4-testing.md              # 测试策略阶段
-│   │   ├── phase-5-documentation.md        # 文档交付阶段
-│   │   └── checklists/                     # 检查清单
-│   │       ├── security-checklist.md       # 安全检查清单
-│   │       ├── production-readiness.md     # 生产就绪检查清单
-│   │       └── enterprise-concerns.md      # 企业级关注点
-│   │
-│   ├── mobile-app/                         # 移动端 App（未来扩展）
-│   │   └── SKILL.md
-│   │
-│   ├── cli-tool/                           # CLI 工具（未来扩展）
-│   │   └── SKILL.md
-│   │
-│   └── templates/                          # 文档模板
-│       ├── prd-template.md                 # PRD 模板
-│       ├── tech-selection-template.md      # 技术选型模板
-│       ├── database-design-template.md     # 数据库设计模板
-│       ├── api-design-template.md          # API 设计模板
-│       ├── project-control-template.md     # 项目控制文档模板
-│       ├── doc-dependencies-template.md    # 🆕 文档依赖关系图模板
-│       └── change-review-checklist-template.md  # 🆕 变更检查清单模板
-│
-├── meta-knowledge/                         # 🆕 元知识提炼
-│   └── SKILL.md                            # 元知识提炼技能
-│
-└── retro/                                  # 复盘萃取工具
-    ├── RETRO-GUIDE.md                      # 复盘引导文档
-    ├── RETRO-TEMPLATE.md                   # 复盘记录模板
-    └── retro-doc-consistency.md            # 🆕 文档一致性复盘记录
+└── skills/
+    ├── SKILL-INDEX.md                      # 📍 你在这里 - 入口文档
+    │
+    ├── project-kickoff/                    # 项目启动方法论
+    │   ├── SKILL.md                        # 主文档 - 项目分类决策树
+    │   │
+    │   ├── enterprise-web/                 # 企业级 Web 项目
+    │   │   ├── SKILL.md                    # ⭐ 主指南
+    │   │   ├── phase-1-requirements.md     # 需求分析阶段
+    │   │   ├── phase-2-tech-selection.md   # 技术选型阶段
+    │   │   ├── phase-3-system-design.md    # 系统设计阶段
+    │   │   ├── phase-4-testing.md          # 测试策略阶段
+    │   │   ├── phase-5-documentation.md    # 文档交付阶段
+    │   │   └── checklists/                 # 检查清单
+    │   │       └── enterprise-concerns.md  # 企业级关注点
+    │   │
+    │   └── templates/                      # 文档模板
+    │       ├── prd-template.md
+    │       ├── project-control-template.md
+    │       ├── doc-dependencies-template.md
+    │       └── change-review-checklist-template.md
+    │
+    ├── claude-code-prompt/                 # 🆕 Claude Code Prompt 设计
+    │   ├── SKILL.md                        # 主指南 - Prompt 结构和原则
+    │   └── templates/                      # Prompt 模板
+    │       └── 01-project-init-template.md # 项目初始化模板
+    │
+    ├── meta-knowledge/                     # 元知识提炼
+    │   └── SKILL.md                        # 元知识提炼技能
+    │
+    └── retro/                              # 复盘萃取工具
+        ├── RETRO-GUIDE.md                  # 复盘引导文档
+        └── retro-doc-consistency.md        # 文档一致性复盘记录
 ```
 
 ---
@@ -104,6 +101,7 @@ skills/
 | Skill | 状态 | 适用场景 |
 |-------|:----:|----------|
 | **企业级 Web 项目** | ✅ 可用 | B2B SaaS、内部管理系统、平台型产品 |
+| **Claude Code Prompt** | ✅ 可用 | 使用 Claude Code 进行代码生成 |
 | **元知识提炼** | ✅ 可用 | 从协作历史中提炼可复用的洞察 |
 | 移动端 App | ⬜ 计划中 | iOS/Android 原生或跨平台 |
 | CLI 工具 | ⬜ 计划中 | 命令行工具、脚本 |
@@ -135,3 +133,4 @@ skills/
 | v1.1 | 2025-01-27 | 添加测试策略(phase-4-testing.md)和文档交付(phase-5-documentation.md)阶段 |
 | v1.2 | 2025-01-28 | 添加文档一致性管理模板(doc-dependencies-template.md, change-review-checklist-template.md) |
 | v1.3 | 2025-01-30 | 添加元知识提炼 Skill (meta-knowledge/)，探索 AI 协作中的知识萃取 |
+| v1.4 | 2025-01-31 | 添加核心原则(CORE-PRINCIPLES.md)和 Claude Code Prompt Skill，基于 Task Decomposition 验证实践 |
