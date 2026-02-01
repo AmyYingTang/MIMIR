@@ -180,6 +180,7 @@ This Skill guides AI Agents or developers through the complete startup process f
 ## Phase 3: System Design
 
 > 📄 Detailed Guide: `phase-3-system-design.md`  
+> 📄 UI/UX Design Principles: `phase-3-ui-design-principles.md`  
 > 📄 Output Templates: `templates/database-design-template.md`, `templates/api-design-template.md`
 
 ### Architecture Design Principles
@@ -221,7 +222,16 @@ This Skill guides AI Agents or developers through the complete startup process f
 - [ ] CORS policy
 - [ ] Log masking
 
-#### 3.4 Extensibility Design
+#### 3.4 UI/UX Design
+
+> 📄 Detailed Guide: `phase-3-ui-design-principles.md`
+
+- [ ] End user interfaces use wizard-style interaction (Wizard Pattern)
+- [ ] Post-login landing page uses Launchpad pattern, not Dashboard
+- [ ] UI options fetched dynamically from backend config API, no hardcoded values
+- [ ] Admin interfaces use traditional table/form layouts
+
+#### 3.5 Extensibility Design
 
 - [ ] External service abstractions (email, storage, third-party APIs)
 - [ ] Feature flag design
@@ -235,6 +245,7 @@ This Skill guides AI Agents or developers through the complete startup process f
 - [ ] API design document
 - [ ] Security design scheme
 - [ ] Configuration management scheme
+- [ ] UI prototype / interaction design (including wizard flows)
 
 ---
 
@@ -463,65 +474,6 @@ These are must-consider but easily overlooked points for enterprise projects:
 
 ---
 
-## Phase 8: Document Consistency Management
-
-> 📄 Template: `templates/doc-dependencies-template.md`  
-> 📄 Checklist: `templates/change-review-checklist-template.md`
-
-### Problem Background
-
-In complex projects, documents are interconnected:
-- UI changes may require API updates
-- API changes may require database changes
-- Business rule changes may require test updates
-
-**Relying on human memory to track these dependencies is unreliable.** As projects grow, the risk of document inconsistency increases.
-
-### Solution: Document Dependency Graph
-
-Create `doc-dependencies.yaml` to map relationships between documents:
-
-```yaml
-ui_prototype:
-  triggers_review:
-    - api-design.md      # UI new feature → Check if API exists
-    - state-machines.md  # UI new state → Check state machine
-    - business-rules.md  # UI new logic → Check business rules
-    - prd.md             # UI new feature → Update PRD
-```
-
-### Workflow
-
-```
-Document change → Consult dependency graph → Check affected documents → Update all → Record in control document
-```
-
-### Best Practices
-
-| Practice | Description |
-|----------|-------------|
-| **Pre-commit check** | Execute dependency checklist before committing changes |
-| **Atomic updates** | Update all related documents in the same commit |
-| **Version alignment** | Keep related document versions in sync |
-| **Regular audit** | Periodically check for document drift |
-
-### When to Use
-
-| Trigger | Action |
-|---------|--------|
-| After UI prototype changes | Check API, state machines, business rules, PRD |
-| After PRD changes | Check all technical documents |
-| After API changes | Check database, business rules, state machines |
-| After any major change | Execute change review checklist |
-
-### Deliverables
-
-- [ ] Document dependency graph (`doc-dependencies.yaml`)
-- [ ] Completed change review checklist (as needed)
-- [ ] Updated project control document
-
----
-
 ## Appendix: Decision Record Template
 
 Every important technical decision should be recorded in this format:
@@ -553,4 +505,3 @@ Every important technical decision should be recorded in this format:
 |---------|------|---------|
 | v1.0 | 2025-01-27 | Initial version |
 | v1.1 | 2025-01-27 | Added Testing Strategy (Phase 5) and Documentation Delivery (Phase 6) phases |
-| v1.2 | 2025-01-28 | Added Document Consistency Management (Phase 8) |

@@ -45,6 +45,7 @@ MIMIR/
 │   │   ├── phase-1-requirements.md     # 需求分析
 │   │   ├── phase-2-tech-selection.md   # 技术选型
 │   │   ├── phase-3-system-design.md    # 系统设计
+│   │   ├── phase-3-ui-design-principles.md  # 🆕 UI/UX 设计原则
 │   │   ├── phase-4-testing.md          # 测试策略
 │   │   ├── phase-5-documentation.md    # 文档交付
 │   │   └── checklists/                 # 检查清单
@@ -105,6 +106,7 @@ Phase 1        Phase 2        Phase 3        Phase 4        Phase 5        Phase
   PRD         技术选型文档    数据库设计      代码仓库       测试用例      用户手册
  用户角色      架构图         API设计                       E2E清单      管理员手册
  优先级                       安全设计                                   部署文档
+                              UI/UX设计原则
 ```
 
 每个阶段都有：
@@ -138,6 +140,15 @@ Q: 预计用户量级？
 - 操作审计、数据保留
 - 错误处理、超时控制、限流
 
+### 🖥️ UI/UX 设计原则
+
+基于真实项目经验提炼的前端交互指导：
+
+- 终端用户使用向导式交互（Wizard Pattern）
+- 管理员使用传统表格/表单布局
+- 登录后引导页（Launchpad）替代 Dashboard
+- 配置驱动的 UI 动态适配
+
 ### 🔄 复盘驱动更新
 
 每个项目结束后，通过复盘萃取经验：
@@ -169,7 +180,7 @@ Q: 预计用户量级？
 
 1. **需求分析** → 产出 PRD，明确用户角色、权限模型、P0-P3 功能划分
 2. **技术选型** → 产出技术选型文档，确定技术栈
-3. **系统设计** → 产出数据库设计、API 设计
+3. **系统设计** → 产出数据库设计、API 设计、UI/UX 设计原则
 4. **详细规格** → 产出状态机定义、业务规则、UI 原型
 5. **测试策略** → 产出测试用例文档，建立 TDD 流程
 6. **文档交付** → 产出用户手册、管理员手册
@@ -208,7 +219,9 @@ MIT
 
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
-| v1.4 | 2025-01-31 | 添加核心原则(CORE-PRINCIPLES.md)和 Claude Code Prompt Skill，基于 Task Decomposition 验证实践 |
+| v1.6 | 2025-02-01 | 添加 UI/UX 设计原则 (phase-3-ui-design-principles.md)：向导式交互、角色分层体验、配置驱动 UI 适配 |
+| v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0：模板变量、交互模式标记、连接测试；核心原则 v1.1：新增"尽早验证输入" |
+| v1.4 | 2025-01-31 | 添加核心原则 (CORE-PRINCIPLES.md) 和 Claude Code Prompt Skill，基于 Task Decomposition 验证实践 |
 | v1.3 | 2025-01-30 | 添加元知识提炼 Skill (meta-knowledge/) |
 | v1.2 | 2025-01-28 | 添加文档一致性管理模板 |
 | v1.1 | 2025-01-27 | 添加测试策略、文档交付阶段 |

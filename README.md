@@ -51,6 +51,9 @@ MIMIR/
 │       ├── project-kickoff/
 │       │   ├── SKILL.md
 │       │   ├── enterprise-web/  # Enterprise Web guide
+│       │   │   ├── phase-1 ~ phase-5          # Dev lifecycle phases
+│       │   │   ├── phase-3-ui-design-principles.md  # 🆕 UI/UX design principles
+│       │   │   └── checklists/
 │       │   └── templates/       # Document templates
 │       ├── claude-code-prompt/  # Claude Code Prompt design (v2.0)
 │       │   ├── SKILL.md
@@ -67,6 +70,9 @@ MIMIR/
         ├── project-kickoff/
         │   ├── SKILL.md
         │   ├── enterprise-web/  # 企业级 Web 指南
+        │   │   ├── phase-1 ~ phase-5          # 开发全生命周期阶段
+        │   │   ├── phase-3-ui-design-principles.md  # 🆕 UI/UX 设计原则
+        │   │   └── checklists/
         │   └── templates/       # 文档模板
         ├── claude-code-prompt/  # Claude Code Prompt 设计 (v2.0)
         │   ├── SKILL.md
@@ -107,7 +113,7 @@ Project brief: [Describe your project]
 | Project Type | Status |
 |--------------|:------:|
 | Enterprise Web Projects | ✅ |
-| Claude Code Prompt Design | ✅ 🆕 |
+| Claude Code Prompt Design | ✅ |
 | Meta-Knowledge Extraction | ✅ |
 | Mobile Apps | 🚧 Planned |
 | CLI Tools | 🚧 Planned |
@@ -136,6 +142,7 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
+| v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
 | v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |
 | v1.4 | 2025-01-31 | Added Core Principles and Claude Code Prompt Skill, based on Task Decomposition validation |
 | v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill for AI collaboration insights |

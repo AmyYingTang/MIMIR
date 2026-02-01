@@ -45,6 +45,7 @@ MIMIR/
 │   │   ├── phase-1-requirements.md     # Requirements analysis
 │   │   ├── phase-2-tech-selection.md   # Technology selection
 │   │   ├── phase-3-system-design.md    # System design
+│   │   ├── phase-3-ui-design-principles.md  # 🆕 UI/UX design principles
 │   │   ├── phase-4-testing.md          # Testing strategy
 │   │   ├── phase-5-documentation.md    # Documentation delivery
 │   │   └── checklists/                 # Checklists
@@ -106,6 +107,8 @@ Analysis       Selection      Design         Implementation  Strategy       Deli
   PRD         Tech Stack     Database      Code Repo      Test Cases    User Manual
  User Roles    Document       Design                      E2E Checklist  Admin Manual
  Priorities   Architecture   API Design                                 Deployment Docs
+                              Security
+                              UI/UX Principles
 ```
 
 Each phase includes:
@@ -139,6 +142,15 @@ Reminders for commonly overlooked points in enterprise projects:
 - Audit trails, data retention
 - Error handling, timeout control, rate limiting
 
+### 🖥️ UI/UX Design Principles
+
+Frontend interaction guidelines distilled from real project experience:
+
+- End users get wizard-style interaction (Wizard Pattern)
+- Admins get traditional table/form layouts
+- Post-login Launchpad replaces Dashboard for end users
+- Configuration-driven dynamic UI adaptation
+
 ### 🔄 Retrospective-Driven Updates
 
 After each project, extract experience through retrospectives:
@@ -170,7 +182,7 @@ About a few hundred users, no high concurrency needs.
 
 1. **Requirements Analysis** → Produce PRD, clarify user roles, permission model, P0-P3 feature prioritization
 2. **Technology Selection** → Produce tech selection document, confirm tech stack
-3. **System Design** → Produce database design, API design
+3. **System Design** → Produce database design, API design, UI/UX design principles
 4. **Detailed Specifications** → Produce state machine definitions, business rules, UI prototypes
 5. **Testing Strategy** → Produce test case documents, establish TDD workflow
 6. **Documentation Delivery** → Produce user manual, admin manual
@@ -209,8 +221,10 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.4 | 2025-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill, based on Task Decomposition validation practice |
-| v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/) |
+| v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
+| v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |
+| v1.4 | 2025-01-31 | Added Core Principles and Claude Code Prompt Skill, based on Task Decomposition validation |
+| v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill for AI collaboration insights |
 | v1.2 | 2025-01-28 | Added document consistency management templates |
 | v1.1 | 2025-01-27 | Added testing strategy and documentation delivery phases |
 | v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |
