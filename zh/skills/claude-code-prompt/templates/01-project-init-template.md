@@ -1,6 +1,7 @@
 # 模板：项目初始化 Prompt
 
-> 用于 FastAPI + MySQL 后端项目的初始化
+> 用于 FastAPI + MySQL 后端项目的初始化  
+> 版本: v2.0（使用模板变量）
 
 ---
 
@@ -13,51 +14,39 @@
 
 **重要原则**：
 - 你主导整个流程
-- 只在必要时向用户询问信息
-- 获得信息后自主完成所有操作
+- 所有环境信息已提供，无需询问用户
+- 自主完成所有操作
 - 每完成一个阶段，汇报进度
 
 ---
 
-## 第一步：环境信息收集
+## 环境信息（已确认）
 
-在开始之前，请向用户询问以下信息（一次性问完）：
+以下信息已由用户提供，请直接使用：
 
-```
-我需要一些环境信息来初始化项目：
-
-1. 你的 Python 命令是什么？
-   （例如：python3.12、python3、python）
-
-2. 项目要创建在哪个目录？
-   （请提供完整路径，例如：~/projects 或 /Users/xxx/dev）
-
-3. MySQL 连接信息：
-   - 主机（默认 localhost）：
-   - 端口（默认 3306）：
-   - 用户名：
-   - 密码：
-
-请提供以上信息，我会自动完成后续所有操作。
-```
-
-**等待用户回复后再继续。**
+- **Python 命令**：{{python_cmd:python3}}
+- **项目目录**：{{project_dir}}
+- **MySQL 主机**：{{mysql_host:localhost}}
+- **MySQL 端口**：{{mysql_port:3306}}
+- **MySQL 用户名**：{{mysql_user:root}}
+- **MySQL 密码**：{{mysql_password}}
+- **数据库名称**：{{db_name:voice_model_platform}}
 
 ---
 
-## 第二步：验证环境
+## 第一步：验证环境
 
-获得用户信息后，自动执行以下检查：
+使用上述信息，自动执行以下检查：
 
-1. 验证 Python 版本 >= 3.11
-2. 验证项目目录存在且可写
+1. 验证 Python 版本 >= 3.11（使用 {{python_cmd:python3}}）
+2. 验证项目目录 {{project_dir}} 存在且可写
 3. 验证 pip 可用
 
-如果有问题，告知用户并提供解决建议。
+如果有问题，报告错误并停止。
 
 ---
 
-## 第三步：创建项目
+## 第二步：创建项目
 
 验证通过后，自动执行：
 
@@ -67,6 +56,8 @@
 4. 安装依赖
 5. 初始化 alembic
 6. 运行测试验证
+
+**直接执行，无需询问。**
 
 ---
 
@@ -113,6 +104,19 @@
 
 [在此处提供每个文件的完整内容]
 
+.env 文件中的数据库连接使用：
+DATABASE_URL=mysql+pymysql://{{mysql_user:root}}:{{mysql_password}}@{{mysql_host:localhost}}:{{mysql_port:3306}}/{{db_name:voice_model_platform}}
+
+---
+
+## 执行流程
+
+### 阶段 3：设置虚拟环境
+{{python_cmd:python3}} -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
 ---
 
 ## 完成报告
@@ -120,16 +124,17 @@
 ```
 ✅ 项目初始化完成！
 
-📁 项目位置：{完整路径}
+📁 项目位置：{{project_dir}}/[project-name]
 🐍 Python 环境：{python版本}
 📦 已安装依赖：{数量} 个包
+🗄️ 数据库配置：{{mysql_user:root}}@{{mysql_host:localhost}}:{{mysql_port:3306}}/{{db_name:voice_model_platform}}
 
 验证结果：
 - pytest：✅ 通过
 - 服务启动：✅ 正常
 - /health 接口：✅ 返回 {"status": "ok"}
 
-下一步：请将此结果告知 Claude，以便生成下一个 prompt
+下一步：执行 02-database-models.md
 ```
 
 ---
@@ -148,4 +153,5 @@
 1. 复制上面的模板
 2. 根据实际项目修改 `[project-name]` 和相关配置
 3. 补充完整的文件内容
-4. 交给 Claude Code 执行
+4. 通过 Agent 执行（自动收集变量并填充）
+5. 或手动将 `{{变量}}` 替换为实际值后交给 Claude Code 执行

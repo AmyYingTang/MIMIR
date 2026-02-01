@@ -134,3 +134,4 @@ MIMIR/
 | v1.2 | 2025-01-28 | Added document consistency management templates (doc-dependencies-template.md, change-review-checklist-template.md) |
 | v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/), exploring knowledge extraction in AI collaboration |
 | v1.4 | 2025-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill, based on Task Decomposition validation practice |
+| v1.5 | 2025-02-01 | Claude Code Prompt Skill upgraded to v2.0 (template variables, interactive mode marker, connection testing); Core Principles added "Validate Inputs Early"; based on Agent automation experiment |

@@ -1,7 +1,8 @@
 # Claude Code Prompt Skill
 
-> **Version**: v1.0  
+> **Version**: v2.0  
 > **Created**: 2025-01-31  
+> **Last Updated**: 2025-02-01  
 > **Use Case**: Code generation and project implementation using Claude Code  
 > **Prerequisites**: Completed system design phase with clear technical specifications
 
@@ -41,27 +42,24 @@ You are a [role description]. Your task is [task objective].
 
 **Important Principles**:
 - You lead the entire process
-- Only ask users for information when necessary
-- Complete all operations autonomously after getting information
+- All environment info is pre-provided, no need to ask user
+- Complete all operations autonomously
 - Report progress after completing each phase
 
 ---
 
-## Step 1: [Information Collection/Environment Confirmation]
+## Environment Info (Confirmed)
 
-[Information needed from user, ask all at once]
+The following info has been provided by the user. Use directly:
 
-```
-I need some information:
+- **[Config Item 1]**: {{variable_name_1:default_value}}
+- **[Config Item 2]**: {{variable_name_2}}
 
-1. [Question 1]
-2. [Question 2]
-3. [Question 3]
+---
 
-Please provide the above information, I will automatically complete all subsequent operations.
-```
+## Step 1: [Environment Verification]
 
-**After getting information, automatically check**:
+Using the above info, automatically run checks:
 - [Prerequisite 1]
 - [Prerequisite 2]
 
@@ -100,7 +98,7 @@ After all steps are completed, report to user:
 - [Check 1]: ✅
 - [Check 2]: ✅
 
-Next Step: [Guidance]
+Next Step: Execute [next prompt filename]
 ```
 
 ---
@@ -117,11 +115,132 @@ Report specific errors and provide solutions.
 
 ---
 
+## Template Variable Specification (Agent Collaboration)
+
+### Overview
+
+Prompts use `{{variable}}` format template variables instead of "ask the user". When executed through the Agent, it collects all variables upfront, fills them in, then executes in non-interactive mode.
+
+### Syntax
+
+| Format | Meaning | Example |
+|--------|---------|---------|
+| `{{name}}` | Required variable, no default | `{{project_dir}}` |
+| `{{name:default}}` | Variable with default value | `{{mysql_host:localhost}}` |
+
+### Naming Conventions
+
+| Variable Type | Naming Rule | Example |
+|---------------|-------------|---------|
+| Database connection | `mysql_host`, `mysql_port`, `mysql_user`, `mysql_password`, `db_name` | Agent auto-triggers connection test |
+| Python environment | `python_cmd` | `{{python_cmd:python3}}` |
+| Project path | `project_dir` | `{{project_dir}}` |
+| App configuration | Name by business meaning | `{{app_port:8000}}` |
+
+> **Important**: Using standard names (especially `mysql_*` series) enables the Agent to automatically detect and test connections after collection.
+
+### Usage in Prompts
+
+**Correct (v2.0)**:
+```markdown
+## Environment Info (Confirmed)
+
+- **Python Command**: {{python_cmd:python3}}
+- **Project Directory**: {{project_dir}}
+- **MySQL Host**: {{mysql_host:localhost}}
+- **MySQL Password**: {{mysql_password}}
+- **Database Name**: {{db_name:voice_model_platform}}
+```
+
+**Old approach (v1.0, deprecated)**:
+```markdown
+## Step 1: Information Collection
+
+Ask the user for the following information (all at once):
+...
+**Wait for user reply before continuing.**
+```
+
+### Where Variables Should Appear
+
+Template variables should appear not just in the info section but everywhere the values are referenced:
+
+```markdown
+## Execution Flow
+
+### Phase 1: Create Project
+cd {{project_dir}}
+mkdir -p voice-model-platform/backend
+
+### Phase 3: Setup Virtual Environment
+{{python_cmd:python3}} -m venv venv
+```
+
+---
+
+## Interactive Mode Marker
+
+### Overview
+
+Some Prompts contain dangerous operations that require user confirmation during execution (e.g., database migrations, delete operations). These Prompts must be marked as interactive mode, and the Agent will use a different execution strategy.
+
+### Syntax
+
+Add to the **first line** of the Prompt file:
+
+```markdown
+<!-- agent:interactive -->
+# Claude Code Prompt: ...
+```
+
+### When to Use
+
+| Scenario | Needs Marker? | Reason |
+|----------|:------------:|--------|
+| Create files/directories | ❌ | Non-destructive |
+| Install dependencies | ❌ | Non-destructive |
+| Database migration | ✅ | Modifies DB schema |
+| Delete operations | ✅ | Irreversible |
+| Init scripts (create DB, tables, seed data) | ✅ | Modifies database |
+| Modify production config | ✅ | Affects live environment |
+
+### Mode Comparison
+
+| | Non-interactive (default) | Interactive |
+|--|---|---|
+| **Marker** | None | `<!-- agent:interactive -->` |
+| **Agent behavior** | `claude -p --dangerously-skip-permissions` | `claude "prompt"` |
+| **User action** | No intervention needed | May need to answer confirmations |
+| **Use case** | File creation, dependency install | DB operations, deletions |
+
+---
+
 ## Key Design Principles
 
-### 1. Complete Information Collection at Once
+### 1. Environment Info via Template Variables
 
-**Correct**:
+**Correct (v2.0)**:
+```markdown
+## Environment Info (Confirmed)
+
+- **Python Command**: {{python_cmd:python3}}
+- **Project Directory**: {{project_dir}}
+- **MySQL Password**: {{mysql_password}}
+```
+
+**Transitional (compatible with manual execution)**:
+```markdown
+## Environment Info (Confirmed)
+
+The following info has been provided by the user. Use directly:
+
+- **Python Command**: {{python_cmd:python3}}
+- **MySQL Password**: {{mysql_password}}
+
+> For manual execution, replace {{variables}} with actual values
+```
+
+**Old approach (v1.0, deprecated)**:
 ```
 I need the following information:
 1. What is your Python command?
@@ -129,15 +248,6 @@ I need the following information:
 3. MySQL connection info?
 
 Please provide all at once.
-```
-
-**Incorrect**:
-```
-What is your Python command?
-[Wait for reply]
-OK, where is the project directory?
-[Wait for reply]
-What is the MySQL connection info?
 ```
 
 ### 2. Execute Rather Than Instruct
@@ -252,3 +362,4 @@ See: `templates/` directory for actual cases
 | Version | Date | Changes |
 |---------|------|---------|
 | v1.0 | 2025-01-31 | Initial version based on user auth module validation practice |
+| v2.0 | 2025-02-01 | Major update: Template variables `{{variable}}` replace manual input collection; Interactive mode marker `<!-- agent:interactive -->` for dangerous operations; Agent connection test variable naming conventions |

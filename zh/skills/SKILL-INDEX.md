@@ -134,3 +134,4 @@ MIMIR/
 | v1.2 | 2025-01-28 | 添加文档一致性管理模板(doc-dependencies-template.md, change-review-checklist-template.md) |
 | v1.3 | 2025-01-30 | 添加元知识提炼 Skill (meta-knowledge/)，探索 AI 协作中的知识萃取 |
 | v1.4 | 2025-01-31 | 添加核心原则(CORE-PRINCIPLES.md)和 Claude Code Prompt Skill，基于 Task Decomposition 验证实践 |
+| v1.5 | 2025-02-01 | Claude Code Prompt Skill 升级至 v2.0（模板变量、交互模式标记、连接测试）；核心原则新增"输入验证前置"；基于 Agent 自动化实验 |

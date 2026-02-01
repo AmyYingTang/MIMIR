@@ -1,8 +1,9 @@
 # MIMIR Core Principles
 
-> **Version**: v1.0  
+> **Version**: v1.1  
 > **Created**: 2025-01-31  
-> **Source**: Task Decomposition Validation Practice
+> **Last Updated**: 2025-02-01  
+> **Source**: Task Decomposition Validation Practice + Agent Automation Experiment
 
 ---
 
@@ -115,3 +116,42 @@ This principle comes from the design of 6 Prompts in the Task Decomposition vali
 | Version | Date | Changes |
 |---------|------|---------|
 | v1.0 | 2025-01-31 | Initial version with 3 core principles |
+| v1.1 | 2025-02-01 | Added Principle 4: Validate Inputs Early (from Agent automation experiment) |
+
+---
+
+## Principle 4: Validate Inputs Early
+
+### Definition
+
+When users provide external system connection info (database, API, service endpoints, etc.), validate immediately after collection, allowing corrections on failure, rather than waiting until execution to discover errors.
+
+### Key Points
+
+1. **Validate Immediately After Collection**
+   - Don't wait until code generation or deployment to discover connection failures
+   - After collecting a database password, test the connection right away
+
+2. **Distinguish Input Types**
+   - **Pre-validatable**: Database connections, API endpoints, file paths — test immediately after collection
+   - **Not pre-validatable**: Configurations depending on not-yet-generated code — defer validation
+
+3. **Allow Corrections on Failure**
+   - Validation failure should not terminate the entire flow
+   - Give users the chance to re-enter, or skip validation and continue
+
+4. **Distinguish Pre-execution Input vs Mid-execution Confirmation**
+   - Configuration inputs (passwords, ports) → Collect and validate via Agent before execution
+   - Dangerous operation confirmations ("Run migration?") → Handle via interactive mode during execution
+
+### Anti-Patterns
+
+| Anti-Pattern | Problem | Correct Approach |
+|--------------|---------|------------------|
+| Wrong password discovered at migration step | Wastes all prior execution time | Test connection immediately after collecting credentials |
+| Validation failure exits immediately | Might just be a typo | Allow re-entry |
+| Defer all input validation | Pre-validatable inputs shouldn't wait | Validate pre-validatable inputs immediately |
+
+### Origin
+
+This principle comes from the Agent automation experiment on 2025-02-01. The user entered an incorrect MySQL password, and the Agent filled the wrong password into all Prompt templates. The error wasn't discovered until step 6 (init script) when the connection failed, requiring manual `.env` file repair and re-execution. After adding connection testing, errors are caught and correctable at the input stage.
