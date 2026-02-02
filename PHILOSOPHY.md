@@ -98,6 +98,24 @@ The most critical step — observe how you performed Steps 1 through 3, then ask
 
 If yes, then AI gains the ability to **self-evolve** — recognizing during task execution that "what I just did is a reusable capability," automatically extracting it into a Skill, storing it in a knowledge base, and invoking it directly next time a similar situation arises.
 
+### An Honest Note on Layer 4 / 关于第四层的诚实注脚
+
+但我们必须诚实：截至目前，第四层仍然需要人来触发。
+
+But we must be honest: as of now, Layer 4 still requires a human to trigger it.
+
+AI 目前能做到的"反思"，最多是：人告诉它"请反思一下"，它便根据已有的原则和技巧进行结构化复盘。但它不会**主动**发起反思——不会在没有人提示的情况下突然意识到"我刚才做的这个事情，好像跟另一个完全不相关的领域有共同的模式"。
+
+The best AI can currently do in terms of "reflection" is this: a human says "please reflect on this," and AI then performs a structured retrospective based on existing principles and skills. But it doesn't **spontaneously** initiate reflection — it won't suddenly realize, unprompted, that "what I just did seems to share a pattern with something in a completely different domain."
+
+人类的洞察常常来自"灵机一动"——在没有刻意思考某个问题的时候，两个看似无关的概念突然在脑中建立了联系。这种非线性的跳跃、无意识的背景发酵，是当前 AI 架构尚未具备的能力。AI 能把素材整理得很好，但点燃那个"突然想到"的火花，暂时还需要人来完成。
+
+Human insight often comes from serendipity — when you're not deliberately thinking about a problem, two seemingly unrelated concepts suddenly connect in your mind. This nonlinear leap, this unconscious background fermentation, is something current AI architectures don't yet possess. AI can organize materials impeccably, but the spark of "suddenly seeing it" still needs a human to ignite — for now.
+
+这也是为什么 MIMIR 是**人机协作**方法论，而不是 AI 自动化方法论。第四层描绘的"AI 自我进化"是愿景，而通向这个愿景的道路上，人的判断力、方向感和那些无法用方法论覆盖的直觉，仍然不可或缺。
+
+This is why MIMIR is a **human-AI collaboration** methodology, not an AI automation methodology. The "AI self-evolution" described in Layer 4 is a vision. On the road toward that vision, human judgment, sense of direction, and those intuitions that no methodology can fully capture, remain indispensable.
+
 ---
 
 ## MIMIR Build Orchestrator / 构建编排器
