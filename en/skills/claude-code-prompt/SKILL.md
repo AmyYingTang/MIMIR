@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **Version**: v2.0  
+> **Version**: v2.1  
 > **Created**: 2025-01-31  
-> **Last Updated**: 2025-02-01  
+> **Last Updated**: 2025-02-02  
 > **Use Case**: Code generation and project implementation using Claude Code  
 > **Prerequisites**: Completed system design phase with clear technical specifications
 
@@ -297,6 +297,22 @@ Provide common error handling solutions at the end of the Prompt, allowing AI to
 3. **Sequential Dependencies**: Later Prompts depend on earlier outputs
 4. **Incremental**: From infrastructure to business logic
 
+### Quality Principles (Learned from Practice)
+
+These 9 principles were extracted from real project execution experience. Apply them as a checklist when writing or reviewing prompts.
+
+| # | Principle | Description | Example |
+|---|-----------|-------------|---------|
+| 1 | **ValidateRefs** | All referenced documents/files must exist and be accessible | If prompt says "refer to database-design.md", verify the file is in the expected path |
+| 2 | **PathAlign** | Output file paths in prompts must match actual project directory structure | Don't write `backend/models.py` if the project uses `backend/app/models/` |
+| 3 | **ProgressSignals** | Inter-prompt progress signals must be explicit | Prompt N's completion report should state what Prompt N+1 expects to find |
+| 4 | **UserVerifyGuide** | Agent verification steps must include expected results | Not just "run pytest" but "run pytest, expect 12 tests passed, 0 failed" |
+| 5 | **HostEnvAlign** | Commands must match the execution environment | If running inside Docker, use `docker compose exec backend pytest`, not bare `pytest` |
+| 6 | **NamingConvention** | File naming conventions must be consistent across all prompts | Pick one pattern (e.g., `s-1-1-p01-xxx.md`) and use it everywhere |
+| 7 | **IdempotentPrompts** | Prompts must be safe to re-run | No blocking foreground processes (`uvicorn &` + cleanup); use skip-if-exists logic for file creation and seed data |
+| 8 | **UserAcceptGuide** | Each prompt needs user manual acceptance steps beyond agent auto-verification | Agent tests prove code works; user acceptance proves the feature meets business requirements (e.g., "open browser, login, verify welcome page shows username") |
+| 9 | **ServiceDepChain** | Service dependency chains must be robust | One component's config error shouldn't cascade (e.g., a wrong healthcheck path shouldn't prevent dependent services from starting) |
+
 ### Recommended Granularity
 
 | Task Type | Suggested Granularity |
@@ -363,3 +379,4 @@ See: `templates/` directory for actual cases
 |---------|------|---------|
 | v1.0 | 2025-01-31 | Initial version based on user auth module validation practice |
 | v2.0 | 2025-02-01 | Major update: Template variables `{{variable}}` replace manual input collection; Interactive mode marker `<!-- agent:interactive -->` for dangerous operations; Agent connection test variable naming conventions |
+| v2.1 | 2025-02-02 | Added 9 Task Decompose Quality Principles (ValidateRefs, PathAlign, ProgressSignals, UserVerifyGuide, HostEnvAlign, NamingConvention, IdempotentPrompts, UserAcceptGuide, ServiceDepChain) based on s-1-1 execution experience |

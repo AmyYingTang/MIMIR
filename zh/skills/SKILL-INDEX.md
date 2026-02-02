@@ -114,3 +114,4 @@ skills/
 | v1.0 | 2025-01-27 | 初始版本，基于真实企业级项目经验提炼 |
 | v1.1 | 2025-01-27 | 添加测试策略(phase-4-testing.md)和文档交付(phase-5-documentation.md)阶段 |
 | v1.2 | 2025-02-01 | 添加 UI/UX 设计原则(phase-3-ui-design-principles.md)，含向导式交互和角色分层体验指导 |
+| v1.3 | 2025-02-02 | claude-code-prompt v2.1：9 条任务分解质量原则；enterprise-web phase-2 v1.1：全容器化原则 + Healthcheck 路径对齐 |

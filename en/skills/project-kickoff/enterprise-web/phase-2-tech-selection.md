@@ -247,6 +247,54 @@ Refresh Token: Long-lived (7-30 days), stored in httpOnly Cookie
 | Medium-scale production | Docker Swarm or K3s |
 | Large-scale production | Kubernetes |
 
+#### Full Containerization Principle (Dev = Deploy)
+
+**Principle**: If the production deployment target is Docker, the development environment must also run inside Docker. The host machine should only need Docker installed — no local Python, Node.js, or database setup required.
+
+**Why**: Eliminates "works on my machine" problems. When dev environment equals deploy environment, the gap between development and production shrinks to near zero.
+
+**Practice**:
+
+| Operation | Correct (containerized) | Incorrect (host-based) |
+|-----------|------------------------|----------------------|
+| Install Python packages | Defined in `Dockerfile` → `pip install -r requirements.txt` | `pip install` on host |
+| Run tests | `docker compose exec backend pytest` | `pytest` on host |
+| Run database migration | `docker compose exec backend alembic upgrade head` | `alembic upgrade head` on host |
+| Install npm packages | Defined in `Dockerfile` → `npm install` | `npm install` on host |
+| Start dev server | `docker compose up` (auto-starts all services) | `uvicorn ... &` on host |
+
+**When to apply**: When all of the following are true:
+- Production target is Docker/container-based
+- Project scale is small-to-medium (performance overhead of containers is negligible)
+- Team members have varying local environments
+
+**docker-compose.yml best practices**:
+- Use `healthcheck` for service dependency ordering, ensure healthcheck paths match actual application endpoints
+- Use volume mounts for hot reload during development (mount source code, exclude `node_modules`)
+- Use `depends_on` with `condition: service_healthy` for proper startup ordering
+- Expose only necessary ports to the host
+
+#### Healthcheck Path Alignment
+
+**Rule**: The `healthcheck` test URL in docker-compose.yml **must** match the actual health endpoint implemented in the application.
+
+```yaml
+# ✅ Correct: healthcheck matches actual endpoint
+backend:
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+    # And the application actually has: @app.get("/health")
+
+# ❌ Wrong: healthcheck path doesn't match
+backend:
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+    # But the application only has: @app.get("/health")
+    # Result: container shows "unhealthy" even though it's working fine
+```
+
+**Impact of misalignment**: Dependent services using `condition: service_healthy` may fail to start or start with incorrect status indicators, causing cascading confusion in debugging.
+
 ### 5.2 Cloud vs Self-Hosted
 
 | Service | Recommendation | Rationale |
@@ -352,3 +400,4 @@ Before tech selection is complete, ensure these questions are answered:
 | Version | Date | Updates |
 |---------|------|---------|
 | v1.0 | 2025-01-27 | Initial version |
+| v1.1 | 2025-02-02 | Added Full Containerization Principle (Dev=Deploy) and Healthcheck Path Alignment best practice, based on s-1-1 execution experience |

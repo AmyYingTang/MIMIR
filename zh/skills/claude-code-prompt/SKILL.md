@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.0  
+> **版本**: v2.1  
 > **创建日期**: 2025-01-31  
-> **最后更新**: 2025-02-01  
+> **最后更新**: 2025-02-02  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
 > **前置要求**: 已完成系统设计阶段，有明确的技术规格
 
@@ -297,6 +297,22 @@ mkdir -p voice-model-platform/backend
 3. **顺序依赖**：后续 Prompt 依赖前序 Prompt 的产出
 4. **渐进式**：从基础设施到业务逻辑
 
+### 质量原则（实践提炼）
+
+以下 9 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
+
+| # | 原则 | 说明 | 示例 |
+|---|------|------|------|
+| 1 | **ValidateRefs** | 所有引用的文档/文件必须存在且可访问 | Prompt 中写了"参考 database-design.md"，需验证文件确实在预期路径 |
+| 2 | **PathAlign** | Prompt 中的产出文件路径必须与实际项目目录结构一致 | 不要写 `backend/models.py`，如果项目实际用的是 `backend/app/models/` |
+| 3 | **ProgressSignals** | Prompt 间的进度信号必须显式声明 | Prompt N 的完成报告应说明 Prompt N+1 期望找到的内容 |
+| 4 | **UserVerifyGuide** | Agent 验证步骤必须包含预期结果 | 不只是"运行 pytest"，而是"运行 pytest，期望 12 个测试通过，0 个失败" |
+| 5 | **HostEnvAlign** | 命令必须与执行环境匹配 | 如果在 Docker 内运行，用 `docker compose exec backend pytest`，不是裸 `pytest` |
+| 6 | **NamingConvention** | 文件命名规范必须在所有 Prompt 间保持一致 | 选定一种模式（如 `s-1-1-p01-xxx.md`）后全局统一 |
+| 7 | **IdempotentPrompts** | Prompt 必须可安全重复运行 | 不阻塞前台进程（`uvicorn &` + 清理）；文件创建和种子数据使用 skip-if-exists 逻辑 |
+| 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求（如"打开浏览器，登录，验证欢迎页显示用户名"） |
+| 9 | **ServiceDepChain** | 服务依赖链必须健壮 | 一个组件的配置错误不应级联影响（如错误的 healthcheck 路径不应阻止依赖服务启动） |
+
 ### 推荐的分解粒度
 
 | 任务类型 | 建议粒度 |
@@ -363,3 +379,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 |------|------|----------|
 | v1.0 | 2025-01-31 | 初始版本，基于用户认证模块实践验证 |
 | v2.0 | 2025-02-01 | 重大更新：模板变量 `{{variable}}` 替代手动输入收集；交互模式标记 `<!-- agent:interactive -->` 支持危险操作确认；Agent 连接测试变量命名约定 |
+| v2.1 | 2025-02-02 | 新增 9 条任务分解质量原则（ValidateRefs、PathAlign、ProgressSignals、UserVerifyGuide、HostEnvAlign、NamingConvention、IdempotentPrompts、UserAcceptGuide、ServiceDepChain），基于 s-1-1 执行经验提炼 |

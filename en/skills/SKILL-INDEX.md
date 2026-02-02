@@ -114,3 +114,4 @@ skills/
 | v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |
 | v1.1 | 2025-01-27 | Added testing strategy (phase-4-testing.md) and documentation delivery (phase-5-documentation.md) phases |
 | v1.2 | 2025-02-01 | Added UI/UX design principles (phase-3-ui-design-principles.md), including wizard pattern and role-based experience guidance |
+| v1.3 | 2025-02-02 | claude-code-prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization Principle + Healthcheck Path Alignment |

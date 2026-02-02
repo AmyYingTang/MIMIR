@@ -247,6 +247,54 @@ Refresh Token: 长期有效（7-30 天），存 httpOnly Cookie
 | 中规模生产 | Docker Swarm 或 K3s |
 | 大规模生产 | Kubernetes |
 
+#### 全容器化原则（开发环境 = 部署环境）
+
+**原则**：如果生产部署目标是 Docker，开发环境也必须运行在 Docker 内。宿主机只需安装 Docker，不需要本地安装 Python、Node.js 或数据库。
+
+**为什么**：消除"在我机器上能跑"的问题。当开发环境等于部署环境时，开发与生产之间的差距趋近于零。
+
+**实践**：
+
+| 操作 | 正确（容器化） | 错误（宿主机） |
+|------|---------------|---------------|
+| 安装 Python 包 | 在 `Dockerfile` 中定义 → `pip install -r requirements.txt` | 在宿主机执行 `pip install` |
+| 运行测试 | `docker compose exec backend pytest` | 在宿主机执行 `pytest` |
+| 数据库迁移 | `docker compose exec backend alembic upgrade head` | 在宿主机执行 `alembic upgrade head` |
+| 安装 npm 包 | 在 `Dockerfile` 中定义 → `npm install` | 在宿主机执行 `npm install` |
+| 启动开发服务 | `docker compose up`（自动启动所有服务） | 在宿主机执行 `uvicorn ... &` |
+
+**适用条件**（以下条件同时满足时）：
+- 生产目标是 Docker/容器化部署
+- 项目规模中小型（容器性能开销可忽略）
+- 团队成员本地环境差异大
+
+**docker-compose.yml 最佳实践**：
+- 使用 `healthcheck` 控制服务依赖启动顺序，确保 healthcheck 路径与应用实际端点一致
+- 使用 volume 挂载实现开发热更新（挂载源码，排除 `node_modules`）
+- 使用 `depends_on` 配合 `condition: service_healthy` 实现正确的启动顺序
+- 仅暴露必要的端口到宿主机
+
+#### Healthcheck 路径对齐
+
+**规则**：docker-compose.yml 中的 `healthcheck` 测试 URL **必须**与应用实际实现的健康检查端点一致。
+
+```yaml
+# ✅ 正确：healthcheck 与实际端点匹配
+backend:
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+    # 应用中确实有：@app.get("/health")
+
+# ❌ 错误：healthcheck 路径不匹配
+backend:
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+    # 但应用中只有：@app.get("/health")
+    # 结果：容器显示 "unhealthy"，但实际功能完全正常
+```
+
+**不对齐的影响**：使用 `condition: service_healthy` 的依赖服务可能启动失败或状态显示异常，导致排查时产生级联混乱。
+
 ### 5.2 云服务 vs 自建
 
 | 服务 | 建议 | 理由 |
@@ -352,3 +400,4 @@ Refresh Token: 长期有效（7-30 天），存 httpOnly Cookie
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
 | v1.0 | 2025-01-27 | 初始版本 |
+| v1.1 | 2025-02-02 | 新增全容器化原则（开发环境=部署环境）和 Healthcheck 路径对齐最佳实践，基于 s-1-1 执行经验提炼 |
