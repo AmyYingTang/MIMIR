@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.1  
+> **版本**: v2.2  
 > **创建日期**: 2025-01-31  
-> **最后更新**: 2025-02-02  
+> **最后更新**: 2025-02-03  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
 > **前置要求**: 已完成系统设计阶段，有明确的技术规格
 
@@ -297,9 +297,26 @@ mkdir -p voice-model-platform/backend
 3. **顺序依赖**：后续 Prompt 依赖前序 Prompt 的产出
 4. **渐进式**：从基础设施到业务逻辑
 
+### 前置关卡：依赖决策门（DependencyResolutionGate）
+
+在开始分解任务之前，Agent 必须检查当前模块是否存在跨模块依赖。如果存在未解决的依赖，**必须先阻塞分解**，产出 Dependency Resolution（DR）文档后才能继续。
+
+**流程：**
+
+1. **扫描依赖**：读取参考文档，识别当前模块依赖但不在本模块范围内的资源（如前序模块的数据库表、种子数据、服务接口等）
+2. **评估状态**：每个依赖是"已就绪"还是"需决策"
+3. **阻塞或放行**：
+   - 所有依赖已就绪 → 直接进入分解
+   - 存在"需决策"依赖 → 产出 DR 文档，列出每个依赖的决策选项（如 Mock、Seed、Skip），交由用户确认后再继续
+4. **DR 文档格式**：每条记录包含 `DR-编号`、依赖描述、可选方案、推荐方案及理由
+
+**来源**：s-1-2 模型训练模块任务分解实践。该模块依赖 s-1-1 的用户和芯片数据，如果不先解决"测试时用什么数据"的问题，分解出的 Prompt 会假设数据存在而在执行时失败。
+
+---
+
 ### 质量原则（实践提炼）
 
-以下 9 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
+以下 10 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
 
 | # | 原则 | 说明 | 示例 |
 |---|------|------|------|
@@ -312,6 +329,7 @@ mkdir -p voice-model-platform/backend
 | 7 | **IdempotentPrompts** | Prompt 必须可安全重复运行 | 不阻塞前台进程（`uvicorn &` + 清理）；文件创建和种子数据使用 skip-if-exists 逻辑 |
 | 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求（如"打开浏览器，登录，验证欢迎页显示用户名"） |
 | 9 | **ServiceDepChain** | 服务依赖链必须健壮 | 一个组件的配置错误不应级联影响（如错误的 healthcheck 路径不应阻止依赖服务启动） |
+| 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档 | DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL，并在交付物中说明 |
 
 ### 推荐的分解粒度
 
@@ -380,3 +398,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 | v1.0 | 2025-01-31 | 初始版本，基于用户认证模块实践验证 |
 | v2.0 | 2025-02-01 | 重大更新：模板变量 `{{variable}}` 替代手动输入收集；交互模式标记 `<!-- agent:interactive -->` 支持危险操作确认；Agent 连接测试变量命名约定 |
 | v2.1 | 2025-02-02 | 新增 9 条任务分解质量原则（ValidateRefs、PathAlign、ProgressSignals、UserVerifyGuide、HostEnvAlign、NamingConvention、IdempotentPrompts、UserAcceptGuide、ServiceDepChain），基于 s-1-1 执行经验提炼 |
+| v2.2 | 2025-02-03 | 新增前置关卡 DependencyResolutionGate（依赖决策门）；新增第 10 条质量原则 DiscrepancyReport（文档差异报告），基于 s-1-2 任务分解经验提炼 |

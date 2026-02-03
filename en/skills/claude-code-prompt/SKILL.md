@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **Version**: v2.1  
+> **Version**: v2.2  
 > **Created**: 2025-01-31  
-> **Last Updated**: 2025-02-02  
+> **Last Updated**: 2025-02-03  
 > **Use Case**: Code generation and project implementation using Claude Code  
 > **Prerequisites**: Completed system design phase with clear technical specifications
 
@@ -297,9 +297,26 @@ Provide common error handling solutions at the end of the Prompt, allowing AI to
 3. **Sequential Dependencies**: Later Prompts depend on earlier outputs
 4. **Incremental**: From infrastructure to business logic
 
+### Pre-Gate: Dependency Resolution Gate (DependencyResolutionGate)
+
+Before starting task decomposition, the Agent must check whether the current module has cross-module dependencies. If unresolved dependencies exist, **decomposition must be blocked** until a Dependency Resolution (DR) document is produced.
+
+**Process:**
+
+1. **Scan Dependencies**: Read reference documents to identify resources the current module depends on but are outside its scope (e.g., database tables, seed data, service interfaces from prior modules)
+2. **Assess Status**: For each dependency, determine if it is "ready" or "needs decision"
+3. **Block or Proceed**:
+   - All dependencies ready → proceed to decomposition
+   - Unresolved dependencies exist → produce DR document listing decision options for each (e.g., Mock, Seed, Skip), then wait for user confirmation before continuing
+4. **DR Document Format**: Each entry includes `DR-ID`, dependency description, available options, recommended option, and rationale
+
+**Origin**: s-1-2 model training module task decomposition. This module depended on user and chip data from s-1-1. Without first resolving "what data to use during testing," the decomposed prompts would assume data existence and fail during execution.
+
+---
+
 ### Quality Principles (Learned from Practice)
 
-These 9 principles were extracted from real project execution experience. Apply them as a checklist when writing or reviewing prompts.
+These 10 principles were extracted from real project execution experience. Apply them as a checklist when writing or reviewing prompts.
 
 | # | Principle | Description | Example |
 |---|-----------|-------------|---------|
@@ -312,6 +329,7 @@ These 9 principles were extracted from real project execution experience. Apply 
 | 7 | **IdempotentPrompts** | Prompts must be safe to re-run | No blocking foreground processes (`uvicorn &` + cleanup); use skip-if-exists logic for file creation and seed data |
 | 8 | **UserAcceptGuide** | Each prompt needs user manual acceptance steps beyond agent auto-verification | Agent tests prove code works; user acceptance proves the feature meets business requirements (e.g., "open browser, login, verify welcome page shows username") |
 | 9 | **ServiceDepChain** | Service dependency chains must be robust | One component's config error shouldn't cascade (e.g., a wrong healthcheck path shouldn't prevent dependent services from starting) |
+| 10 | **DiscrepancyReport** | When discrepancies are found between reference documents, Agent resolves by choosing the approach that makes the system work, but must report the discrepancy + decision rationale + patch the source document directly | DDL has 4 status ENUM values but state-machines.md defines 5 states → Agent uses state machine as authority, updates DDL, and documents the discrepancy in deliverables |
 
 ### Recommended Granularity
 
@@ -380,3 +398,4 @@ See: `templates/` directory for actual cases
 | v1.0 | 2025-01-31 | Initial version based on user auth module validation practice |
 | v2.0 | 2025-02-01 | Major update: Template variables `{{variable}}` replace manual input collection; Interactive mode marker `<!-- agent:interactive -->` for dangerous operations; Agent connection test variable naming conventions |
 | v2.1 | 2025-02-02 | Added 9 Task Decompose Quality Principles (ValidateRefs, PathAlign, ProgressSignals, UserVerifyGuide, HostEnvAlign, NamingConvention, IdempotentPrompts, UserAcceptGuide, ServiceDepChain) based on s-1-1 execution experience |
+| v2.2 | 2025-02-03 | Added pre-gate DependencyResolutionGate; added 10th Quality Principle DiscrepancyReport (cross-document discrepancy reporting), based on s-1-2 task decomposition experience |
