@@ -1,6 +1,6 @@
 # Claude Code Prompt Skill
 
-> **Version**: v2.2  
+> **Version**: v2.3  
 > **Created**: 2025-01-31  
 > **Last Updated**: 2025-02-03  
 > **Use Case**: Code generation and project implementation using Claude Code  
@@ -327,7 +327,7 @@ These 10 principles were extracted from real project execution experience. Apply
 | 5 | **HostEnvAlign** | Commands must match the execution environment | If running inside Docker, use `docker compose exec backend pytest`, not bare `pytest` |
 | 6 | **NamingConvention** | File naming conventions must be consistent across all prompts | Pick one pattern (e.g., `s-1-1-p01-xxx.md`) and use it everywhere |
 | 7 | **IdempotentPrompts** | Prompts must be safe to re-run | No blocking foreground processes (`uvicorn &` + cleanup); use skip-if-exists logic for file creation and seed data |
-| 8 | **UserAcceptGuide** | Each prompt needs user manual acceptance steps beyond agent auto-verification | Agent tests prove code works; user acceptance proves the feature meets business requirements (e.g., "open browser, login, verify welcome page shows username") |
+| 8 | **UserAcceptGuide** | Each prompt needs user manual acceptance steps beyond agent auto-verification. **The final prompt must generate a standalone user verification guide file** (e.g., `VERIFY-GUIDE.md`) written in plain language describing what the user should do, and prompt the user to open it upon completion | Agent tests prove code works; user acceptance proves the feature meets business requirements. Final prompt output: `"Please open VERIFY-GUIDE.md and follow the verification steps"` |
 | 9 | **ServiceDepChain** | Service dependency chains must be robust | One component's config error shouldn't cascade (e.g., a wrong healthcheck path shouldn't prevent dependent services from starting) |
 | 10 | **DiscrepancyReport** | When discrepancies are found between reference documents, Agent resolves by choosing the approach that makes the system work, but must report the discrepancy + decision rationale + patch the source document directly | DDL has 4 status ENUM values but state-machines.md defines 5 states → Agent uses state machine as authority, updates DDL, and documents the discrepancy in deliverables |
 
@@ -399,3 +399,4 @@ See: `templates/` directory for actual cases
 | v2.0 | 2025-02-01 | Major update: Template variables `{{variable}}` replace manual input collection; Interactive mode marker `<!-- agent:interactive -->` for dangerous operations; Agent connection test variable naming conventions |
 | v2.1 | 2025-02-02 | Added 9 Task Decompose Quality Principles (ValidateRefs, PathAlign, ProgressSignals, UserVerifyGuide, HostEnvAlign, NamingConvention, IdempotentPrompts, UserAcceptGuide, ServiceDepChain) based on s-1-1 execution experience |
 | v2.2 | 2025-02-03 | Added pre-gate DependencyResolutionGate; added 10th Quality Principle DiscrepancyReport (cross-document discrepancy reporting), based on s-1-2 task decomposition experience |
+| v2.3 | 2025-02-03 | Enhanced UserAcceptGuide (#8) with delivery format requirement: final prompt must generate a standalone user verification guide file, based on s-1-2 post-execution acceptance experience |

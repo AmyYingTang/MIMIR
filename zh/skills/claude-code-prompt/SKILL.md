@@ -1,6 +1,6 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.2  
+> **版本**: v2.3  
 > **创建日期**: 2025-01-31  
 > **最后更新**: 2025-02-03  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
@@ -327,7 +327,7 @@ mkdir -p voice-model-platform/backend
 | 5 | **HostEnvAlign** | 命令必须与执行环境匹配 | 如果在 Docker 内运行，用 `docker compose exec backend pytest`，不是裸 `pytest` |
 | 6 | **NamingConvention** | 文件命名规范必须在所有 Prompt 间保持一致 | 选定一种模式（如 `s-1-1-p01-xxx.md`）后全局统一 |
 | 7 | **IdempotentPrompts** | Prompt 必须可安全重复运行 | 不阻塞前台进程（`uvicorn &` + 清理）；文件创建和种子数据使用 skip-if-exists 逻辑 |
-| 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求（如"打开浏览器，登录，验证欢迎页显示用户名"） |
+| 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证。**最终 Prompt 必须生成独立的用户验收指南文件**（如 `VERIFY-GUIDE.md`），用非技术语言写清楚用户该做什么，并在完成时提示用户打开该文件 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求。最终 Prompt 完成后输出：`"请打开 VERIFY-GUIDE.md 按步骤验收"` |
 | 9 | **ServiceDepChain** | 服务依赖链必须健壮 | 一个组件的配置错误不应级联影响（如错误的 healthcheck 路径不应阻止依赖服务启动） |
 | 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档 | DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL，并在交付物中说明 |
 
@@ -399,3 +399,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 | v2.0 | 2025-02-01 | 重大更新：模板变量 `{{variable}}` 替代手动输入收集；交互模式标记 `<!-- agent:interactive -->` 支持危险操作确认；Agent 连接测试变量命名约定 |
 | v2.1 | 2025-02-02 | 新增 9 条任务分解质量原则（ValidateRefs、PathAlign、ProgressSignals、UserVerifyGuide、HostEnvAlign、NamingConvention、IdempotentPrompts、UserAcceptGuide、ServiceDepChain），基于 s-1-1 执行经验提炼 |
 | v2.2 | 2025-02-03 | 新增前置关卡 DependencyResolutionGate（依赖决策门）；新增第 10 条质量原则 DiscrepancyReport（文档差异报告），基于 s-1-2 任务分解经验提炼 |
+| v2.3 | 2025-02-03 | 补充 UserAcceptGuide（#8）交付形式要求：最终 Prompt 必须生成独立的用户验收指南文件，基于 s-1-2 执行后验收经验 |
