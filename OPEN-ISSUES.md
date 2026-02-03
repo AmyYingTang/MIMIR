@@ -100,6 +100,45 @@ Add "reference mapping" to Task Decompose output: each prompt annotates which de
 
 ---
 
+### MIMIR-ISSUE-003: Browser File Download Compatibility / 浏览器文件下载兼容性
+
+**发现日期 / Discovered**: 2025-02-04  
+**发现场景 / Context**: s-1-2 模型训练模块前端验证测试，文件下载功能在 Chrome 144 上文件名异常  
+**相关 Skill / Related Skill**: claude-code-prompt, enterprise-web
+
+**问题描述 / Problem**:
+
+浏览器文件下载看似简单，但实际存在大量兼容性陷阱。在 s-1-2 中尝试了 7 种方案（Blob、iframe、`<a>` click、`window.open`、`window.location.href`、原生 `<a href>`），最终发现 Chrome 144 对 `Content-Disposition` 的 `filename*=utf-8''...` 处理存在 bug，Safari 正常。
+
+Browser file download seems simple but has numerous compatibility traps. In s-1-2, we tried 7 approaches (Blob, iframe, `<a>` click, `window.open`, `window.location.href`, native `<a href>`), ultimately discovering that Chrome 144 has a bug handling `Content-Disposition`'s `filename*=utf-8''...` encoding, while Safari works correctly.
+
+**对 MIMIR 的影响 / Impact on MIMIR**:
+
+Agent 生成的文件下载代码往往采用 Blob + `URL.createObjectURL` 方案，这在实际浏览器中不可靠（Chrome 安全策略导致 `Content-Disposition` 文件名不被尊重）。Prompt 需要明确指定下载方案，而非让 Agent 自由选择。
+
+Agent-generated file download code typically uses Blob + `URL.createObjectURL`, which is unreliable in actual browsers (Chrome security policies cause `Content-Disposition` filenames to be ignored). Prompts need to specify the download approach explicitly rather than letting the Agent choose freely.
+
+**当前推荐方案 / Current Recommendation**:
+
+- 后端支持 `?token=` query param 认证（优先 Authorization header，fallback query param）
+- 前端使用原生 `<a :href="url">` 链接（非 JS 触发）
+- `Content-Disposition` 同时包含 ASCII `filename` 和 UTF-8 `filename*`
+- ASCII fallback 用 `_` 替换非 ASCII 字符
+
+Backend supports `?token=` query param auth (prioritize Authorization header, fallback to query param). Frontend uses native `<a :href="url">` link (not JS-triggered). Content-Disposition includes both ASCII `filename` and UTF-8 `filename*`. ASCII fallback replaces non-ASCII chars with `_`.
+
+**待验证 / To Verify**:
+
+- Chrome 后续版本是否修复了 `filename*` 编码处理
+- 短时一次性下载 token 方案是否能绕过问题
+- 是否需要将此作为 enterprise-web skill 的标准技术决策
+
+Whether later Chrome versions fix the `filename*` encoding handling. Whether short-lived one-time download tokens bypass the issue. Whether this should become a standard technical decision in the enterprise-web skill.
+
+**当前状态 / Status**: 🟡 有 workaround，但未完美解决 / Has workaround, not perfectly resolved
+
+---
+
 ## Closed / 已关闭
 
 *暂无 / None yet*
@@ -111,3 +150,4 @@ Add "reference mapping" to Task Decompose output: each prompt annotates which de
 | 版本 Version | 日期 Date | 更新 Updates |
 |-------------|-----------|-------------|
 | v1.0 | 2025-02-02 | 初始版本，记录 2 个 open issues（Prompt Spec Fidelity、Change Management Flow）/ Initial version with 2 open issues |
+| v1.1 | 2025-02-04 | 新增 ISSUE-003 浏览器文件下载兼容性 / Added ISSUE-003 Browser File Download Compatibility |

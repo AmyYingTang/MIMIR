@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.3  
+> **版本**: v2.4  
 > **创建日期**: 2025-01-31  
-> **最后更新**: 2025-02-03  
+> **最后更新**: 2025-02-04  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
 > **前置要求**: 已完成系统设计阶段，有明确的技术规格
 
@@ -316,7 +316,7 @@ mkdir -p voice-model-platform/backend
 
 ### 质量原则（实践提炼）
 
-以下 10 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
+以下 12 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
 
 | # | 原则 | 说明 | 示例 |
 |---|------|------|------|
@@ -330,6 +330,8 @@ mkdir -p voice-model-platform/backend
 | 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证。**最终 Prompt 必须生成独立的用户验收指南文件**（如 `VERIFY-GUIDE.md`），用非技术语言写清楚用户该做什么，并在完成时提示用户打开该文件 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求。最终 Prompt 完成后输出：`"请打开 VERIFY-GUIDE.md 按步骤验收"` |
 | 9 | **ServiceDepChain** | 服务依赖链必须健壮 | 一个组件的配置错误不应级联影响（如错误的 healthcheck 路径不应阻止依赖服务启动） |
 | 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档。**特别注意跨 Prompt 的共享数据**（如测试用户凭据、端口号、数据库名） | 实例 1：DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL。实例 2：seed.py 设密码为 `Trainer@2025`，但 conftest.py 写死 `Test123456` → 24 个测试全部 ERROR，根因仅是一个密码字符串不一致 |
+| 11 | **FullStackFix** | 修复 Prompt 必须列出**每一个受影响层**的改动（后端 API、前端调用、测试用例、旧端点清理、配置文件）。Agent 倾向于只修一层就停，导致前后端不同步 | 实例：后端新增 `GET /chips/available` 替代旧的 `/tasks/my-chips`，但 fix prompt 只改了后端。前端仍调旧端点 → 404。测试断言仍用旧字段 → 失败。正确做法：fix prompt 内显式列出 `backend/`, `frontend/`, `tests/`, `旧端点删除` 四个改动区块 |
+| 12 | **InlineAPIContract** | Prompt 必须**内嵌精确的 API 请求/响应 JSON 模式**，而不是仅仅写"参考 api-design.md"。Agent 在生成大量代码时会偏离引用文档的细节（字段名、路径、嵌套结构），内嵌模式是唯一可靠的保真手段 | 实例：api-design.md 定义返回 `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`，Prompt 只写"参考 api-design.md"。Agent 实际生成了 `{id, model, functions: ["KWS"]}` → 前端字段解析全部失败 |
 
 ### 推荐的分解粒度
 
@@ -400,3 +402,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 | v2.1 | 2025-02-02 | 新增 9 条任务分解质量原则（ValidateRefs、PathAlign、ProgressSignals、UserVerifyGuide、HostEnvAlign、NamingConvention、IdempotentPrompts、UserAcceptGuide、ServiceDepChain），基于 s-1-1 执行经验提炼 |
 | v2.2 | 2025-02-03 | 新增前置关卡 DependencyResolutionGate（依赖决策门）；新增第 10 条质量原则 DiscrepancyReport（文档差异报告），基于 s-1-2 任务分解经验提炼 |
 | v2.3 | 2025-02-03 | 补充 UserAcceptGuide（#8）交付形式要求：最终 Prompt 必须生成独立的用户验收指南文件，基于 s-1-2 执行后验收经验 |
+| v2.4 | 2025-02-04 | 新增第 11 条 FullStackFix（修复必须覆盖全链路每一层）和第 12 条 InlineAPIContract（Prompt 必须内嵌精确 API 模式），基于 s-1-2 前后端联调验证经验 |

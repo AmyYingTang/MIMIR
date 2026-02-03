@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **Version**: v2.3  
+> **Version**: v2.4  
 > **Created**: 2025-01-31  
-> **Last Updated**: 2025-02-03  
+> **Last Updated**: 2025-02-04  
 > **Use Case**: Code generation and project implementation using Claude Code  
 > **Prerequisites**: Completed system design phase with clear technical specifications
 
@@ -316,7 +316,7 @@ Before starting task decomposition, the Agent must check whether the current mod
 
 ### Quality Principles (Learned from Practice)
 
-These 10 principles were extracted from real project execution experience. Apply them as a checklist when writing or reviewing prompts.
+These 12 principles were extracted from real project execution experience. Apply them as a checklist when writing or reviewing prompts.
 
 | # | Principle | Description | Example |
 |---|-----------|-------------|---------|
@@ -330,6 +330,8 @@ These 10 principles were extracted from real project execution experience. Apply
 | 8 | **UserAcceptGuide** | Each prompt needs user manual acceptance steps beyond agent auto-verification. **The final prompt must generate a standalone user verification guide file** (e.g., `VERIFY-GUIDE.md`) written in plain language describing what the user should do, and prompt the user to open it upon completion | Agent tests prove code works; user acceptance proves the feature meets business requirements. Final prompt output: `"Please open VERIFY-GUIDE.md and follow the verification steps"` |
 | 9 | **ServiceDepChain** | Service dependency chains must be robust | One component's config error shouldn't cascade (e.g., a wrong healthcheck path shouldn't prevent dependent services from starting) |
 | 10 | **DiscrepancyReport** | When discrepancies are found between reference documents, Agent resolves by choosing the approach that makes the system work, but must report the discrepancy + decision rationale + patch the source document directly. **Pay special attention to shared data across Prompts** (e.g., test user credentials, port numbers, database names) | Example 1: DDL has 4 status ENUM values but state-machines.md defines 5 states → Agent uses state machine as authority, updates DDL. Example 2: seed.py sets password to `Trainer@2025` but conftest.py hardcodes `Test123456` → 24 tests ERROR, root cause is a single mismatched password string |
+| 11 | **FullStackFix** | Fix prompts must list changes for **every affected layer** (backend API, frontend calls, test cases, old endpoint cleanup, config files). Agents tend to fix only one layer and stop, leaving frontend/backend out of sync | Example: Backend adds `GET /chips/available` replacing `/tasks/my-chips`, but fix prompt only modifies backend. Frontend still calls old endpoint → 404. Tests still assert old field names → fail. Correct approach: fix prompt explicitly lists `backend/`, `frontend/`, `tests/`, `old endpoint removal` as four change blocks |
+| 12 | **InlineAPIContract** | Prompts must **embed exact API request/response JSON schemas inline**, not just say "refer to api-design.md". Agents drift from referenced doc details (field names, paths, nesting) when generating large code volumes; inline schemas are the only reliable fidelity mechanism | Example: api-design.md defines `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`, prompt just says "refer to api-design.md". Agent generates `{id, model, functions: ["KWS"]}` → frontend field parsing fails entirely |
 
 ### Recommended Granularity
 
@@ -400,3 +402,4 @@ See: `templates/` directory for actual cases
 | v2.1 | 2025-02-02 | Added 9 Task Decompose Quality Principles (ValidateRefs, PathAlign, ProgressSignals, UserVerifyGuide, HostEnvAlign, NamingConvention, IdempotentPrompts, UserAcceptGuide, ServiceDepChain) based on s-1-1 execution experience |
 | v2.2 | 2025-02-03 | Added pre-gate DependencyResolutionGate; added 10th Quality Principle DiscrepancyReport (cross-document discrepancy reporting), based on s-1-2 task decomposition experience |
 | v2.3 | 2025-02-03 | Enhanced UserAcceptGuide (#8) with delivery format requirement: final prompt must generate a standalone user verification guide file, based on s-1-2 post-execution acceptance experience |
+| v2.4 | 2025-02-04 | Added 11th principle FullStackFix (fixes must cover every layer in the stack) and 12th principle InlineAPIContract (prompts must embed exact API schemas inline), based on s-1-2 frontend-backend integration testing experience |
