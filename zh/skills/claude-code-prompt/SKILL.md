@@ -329,7 +329,7 @@ mkdir -p voice-model-platform/backend
 | 7 | **IdempotentPrompts** | Prompt 必须可安全重复运行 | 不阻塞前台进程（`uvicorn &` + 清理）；文件创建和种子数据使用 skip-if-exists 逻辑 |
 | 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证。**最终 Prompt 必须生成独立的用户验收指南文件**（如 `VERIFY-GUIDE.md`），用非技术语言写清楚用户该做什么，并在完成时提示用户打开该文件 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求。最终 Prompt 完成后输出：`"请打开 VERIFY-GUIDE.md 按步骤验收"` |
 | 9 | **ServiceDepChain** | 服务依赖链必须健壮 | 一个组件的配置错误不应级联影响（如错误的 healthcheck 路径不应阻止依赖服务启动） |
-| 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档 | DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL，并在交付物中说明 |
+| 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档。**特别注意跨 Prompt 的共享数据**（如测试用户凭据、端口号、数据库名） | 实例 1：DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL。实例 2：seed.py 设密码为 `Trainer@2025`，但 conftest.py 写死 `Test123456` → 24 个测试全部 ERROR，根因仅是一个密码字符串不一致 |
 
 ### 推荐的分解粒度
 
