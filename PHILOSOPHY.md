@@ -116,6 +116,24 @@ Human insight often comes from serendipity — when you're not deliberately thin
 
 This is why MIMIR is a **human-AI collaboration** methodology, not an AI automation methodology. The "AI self-evolution" described in Layer 4 is a vision. On the road toward that vision, human judgment, sense of direction, and those intuitions that no methodology can fully capture, remain indispensable.
 
+### Why Intuition Alone Isn't Enough / 为什么光有直觉还不够
+
+但反过来也成立：光有直觉，没有领域深度，洞察无法落地。
+
+But the reverse is also true: intuition without domain depth cannot produce actionable insight.
+
+MIMIR 的递进结构——做项目 → 提炼方法论 → 让 AI 学方法论 → 让 AI 生成方法论——并不是先设计出来再去填充的理论框架。它是在一个熟悉的领域（软件工程）中反复实践后，回头看才发现的模式。每一层都有具体的产出物可以检验：跑起来的代码、写出来的 Skill 文件、能用的 Build Orchestrator。
+
+MIMIR's recursive structure — build projects → extract methodology → teach AI the methodology → have AI generate methodology — was not a theoretical framework designed first and filled in later. It was a pattern discovered in hindsight, after repeated practice in a familiar domain (software engineering). Every layer has concrete, verifiable deliverables: running code, written Skill files, a functional Build Orchestrator.
+
+这揭示了洞察产生的一个条件：**直觉提供搜索方向，领域深度提供验证手段，两者交叉才是真正产出洞察的地方。** 在不熟悉的领域，同样的直觉只能停留在类比层面；在熟悉的领域，它才能变成可检验的工作。
+
+This reveals a condition for how insight is born: **intuition provides the search direction; domain depth provides the means of verification. Insight emerges at their intersection.** In unfamiliar domains, the same intuition can only remain at the level of analogy; in familiar domains, it becomes testable work.
+
+这也为第四层的"诚实注脚"补充了另一面：AI 目前缺的不仅是自发反思的能力，还缺少在特定领域里把一个模糊联想落地为可验证工作的判断力。
+
+This adds another dimension to the "honest note" on Layer 4: what AI currently lacks is not just the ability to reflect spontaneously, but also the judgment to ground a vague association into verifiable work within a specific domain.
+
 ---
 
 ## MIMIR Build Orchestrator / 构建编排器
