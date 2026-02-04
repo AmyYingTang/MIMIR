@@ -1,6 +1,6 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.4  
+> **版本**: v2.5  
 > **创建日期**: 2025-01-31  
 > **最后更新**: 2025-02-04  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
@@ -111,6 +111,34 @@
 2. [常见错误 2]：[解决方案]
 
 报告具体错误并提供解决方案。
+
+---
+
+## 标准 Prompt 结束步骤（⚠️ 在 HOST 执行，不是容器内）
+
+> 以下命令在宿主机终端执行，**不要**放在 `docker compose exec` 内。
+
+### 1. Git 提交
+
+```bash
+git add -A && git commit -m "feat/fix: [简要描述]"
+```
+
+### 2. 按影响范围重建
+
+```bash
+# 仅 backend 代码改动:
+docker compose up -d --build backend
+
+# 仅 frontend 代码改动:
+docker compose up -d --build frontend
+
+# 同时改了 backend + frontend:
+docker compose up -d --build backend frontend
+
+# docker-compose.yml 本身改动:
+docker compose up -d
+```
 ```
 
 ---
@@ -316,7 +344,7 @@ mkdir -p voice-model-platform/backend
 
 ### 质量原则（实践提炼）
 
-以下 12 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
+以下 13 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
 
 | # | 原则 | 说明 | 示例 |
 |---|------|------|------|
@@ -324,7 +352,7 @@ mkdir -p voice-model-platform/backend
 | 2 | **PathAlign** | Prompt 中的产出文件路径必须与实际项目目录结构一致 | 不要写 `backend/models.py`，如果项目实际用的是 `backend/app/models/` |
 | 3 | **ProgressSignals** | Prompt 间的进度信号必须显式声明 | Prompt N 的完成报告应说明 Prompt N+1 期望找到的内容 |
 | 4 | **UserVerifyGuide** | Agent 验证步骤必须包含预期结果 | 不只是"运行 pytest"，而是"运行 pytest，期望 12 个测试通过，0 个失败" |
-| 5 | **HostEnvAlign** | 命令必须与执行环境匹配 | 如果在 Docker 内运行，用 `docker compose exec backend pytest`，不是裸 `pytest` |
+| 5 | **HostEnvAlign** | 命令必须与执行环境匹配。**开发/测试命令**在容器内（`docker compose exec`）；**git 操作和 docker 构建命令**在 HOST 执行，绝不放进 `docker compose exec` | 容器内：`docker compose exec backend pytest`。HOST：`git add -A && git commit` 和 `docker compose up -d --build backend` |
 | 6 | **NamingConvention** | 文件命名规范必须在所有 Prompt 间保持一致 | 选定一种模式（如 `s-1-1-p01-xxx.md`）后全局统一 |
 | 7 | **IdempotentPrompts** | Prompt 必须可安全重复运行 | 不阻塞前台进程（`uvicorn &` + 清理）；文件创建和种子数据使用 skip-if-exists 逻辑 |
 | 8 | **UserAcceptGuide** | 每个 Prompt 需要用户手动验收步骤，超越 Agent 自动验证。**最终 Prompt 必须生成独立的用户验收指南文件**（如 `VERIFY-GUIDE.md`），用非技术语言写清楚用户该做什么，并在完成时提示用户打开该文件 | Agent 测试证明代码能跑；用户验收证明功能满足业务需求。最终 Prompt 完成后输出：`"请打开 VERIFY-GUIDE.md 按步骤验收"` |
@@ -332,6 +360,7 @@ mkdir -p voice-model-platform/backend
 | 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档。**特别注意跨 Prompt 的共享数据**（如测试用户凭据、端口号、数据库名） | 实例 1：DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL。实例 2：seed.py 设密码为 `Trainer@2025`，但 conftest.py 写死 `Test123456` → 24 个测试全部 ERROR，根因仅是一个密码字符串不一致 |
 | 11 | **FullStackFix** | 修复 Prompt 必须列出**每一个受影响层**的改动（后端 API、前端调用、测试用例、旧端点清理、配置文件）。Agent 倾向于只修一层就停，导致前后端不同步 | 实例：后端新增 `GET /chips/available` 替代旧的 `/tasks/my-chips`，但 fix prompt 只改了后端。前端仍调旧端点 → 404。测试断言仍用旧字段 → 失败。正确做法：fix prompt 内显式列出 `backend/`, `frontend/`, `tests/`, `旧端点删除` 四个改动区块 |
 | 12 | **InlineAPIContract** | Prompt 必须**内嵌精确的 API 请求/响应 JSON 模式**，而不是仅仅写"参考 api-design.md"。Agent 在生成大量代码时会偏离引用文档的细节（字段名、路径、嵌套结构），内嵌模式是唯一可靠的保真手段 | 实例：api-design.md 定义返回 `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`，Prompt 只写"参考 api-design.md"。Agent 实际生成了 `{id, model, functions: ["KWS"]}` → 前端字段解析全部失败 |
+| 13 | **HostCommitBuild** | 每个 Prompt 必须以**标准结束步骤**收尾，且这些步骤在 **HOST** 执行（不是 `docker compose exec`）。包含：1) `git add -A && git commit -m "..."` 2) 按影响范围重建容器。Agent 倾向于把 git 命令也塞进 `docker compose exec` 壳里，导致容器内 commit 或漏掉 rebuild | 实例：fix prompt 结尾写 `docker compose exec backend sh -c "git add -A && git commit"`，实际应为裸的 `git add -A && git commit`（HOST 命令），然后 `docker compose up -d --build frontend`（HOST 命令）。见"标准 Prompt 结束步骤"模板 |
 
 ### 推荐的分解粒度
 
@@ -403,3 +432,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 | v2.2 | 2025-02-03 | 新增前置关卡 DependencyResolutionGate（依赖决策门）；新增第 10 条质量原则 DiscrepancyReport（文档差异报告），基于 s-1-2 任务分解经验提炼 |
 | v2.3 | 2025-02-03 | 补充 UserAcceptGuide（#8）交付形式要求：最终 Prompt 必须生成独立的用户验收指南文件，基于 s-1-2 执行后验收经验 |
 | v2.4 | 2025-02-04 | 新增第 11 条 FullStackFix（修复必须覆盖全链路每一层）和第 12 条 InlineAPIContract（Prompt 必须内嵌精确 API 模式），基于 s-1-2 前后端联调验证经验 |
+| v2.5 | 2025-02-04 | 新增第 13 条 HostCommitBuild（结束步骤必须在 HOST 执行）；增强 #5 HostEnvAlign 区分开发命令 vs host 命令；Prompt 结构模板新增"标准结束步骤"区块，基于 s-1-2/s-1-3 patch prompt 中 git commit 误放入容器的实际错误 |
