@@ -59,6 +59,9 @@ MIMIR/
 │   ├── SKILL.md                        # Prompt structure & quality principles
 │   └── templates/
 │
+├── convention-extraction/              # 🟢 BUILD — Cross-module conventions
+│   └── SKILL.md                        # Extraction dimensions, snapshot format
+│
 ├── review-agent/                       # 🟡 VERIFY — Independent code review
 │   └── SKILL.md                        # Review dimensions, report format
 │                                       # Runtime: MIMIR-BO review-agent/
@@ -102,6 +105,7 @@ Claude will follow MIMIR guidelines to ask questions, give suggestions, and prod
 |------|:-----:|:------:|----------------------|
 | **Enterprise Web Projects** | 🔵 Plan | ✅ | B2B SaaS, internal management systems, platform products, multi-user systems |
 | **Claude Code Prompt Design** | 🟢 Build | ✅ | Designing prompts for AI-driven code generation |
+| **Convention Extraction** | 🟢 Build | ✅ | Extracting cross-module conventions from code after each module |
 | **Independent Code Review** | 🟡 Verify | ✅ | Post-build verification against design docs |
 | **Meta-Knowledge Extraction** | 🟣 Reflect | ✅ | Extracting reusable insights from AI collaboration |
 | Mobile Apps | 🔵 Plan | 🚧 | iOS/Android native or cross-platform |
@@ -239,6 +243,7 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
+| v1.9 | 2025-02-04 | Added Convention Extraction skill: cross-module consistency via convention snapshots |
 | v1.8 | 2025-02-04 | Added Review Agent skill: independent code review, lifecycle stages (Plan → Build → Verify → Reflect → Retrospect) |
 | v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
 | v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |

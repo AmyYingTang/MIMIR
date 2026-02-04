@@ -1,6 +1,6 @@
 # Software Project Startup Methodology - Skill System
 
-> **Version**: v1.8  
+> **Version**: v1.9  
 > **Created**: 2025-01-27  
 > **Maintenance**: Continuously updated through project retrospectives  
 > **Target Users**: AI Agents (like Claude) or human developers/architects
@@ -101,6 +101,9 @@ skills/
 │   └── templates/                          # Prompt templates
 │       └── 01-project-init-template.md
 │
+├── convention-extraction/                  # 🆕 Cross-module convention consistency
+│   └── SKILL.md                            # Extraction dimensions, snapshot format, prompt template
+│
 │ ── 🟡 VERIFY ────────────────────────────────────────────────────────────────
 │
 ├── review-agent/                           # 🆕 Independent code review (Quality Assurance)
@@ -129,6 +132,7 @@ skills/
 |-------|:-----:|:------:|----------------------|
 | **Enterprise Web Projects** | 🔵 Plan | ✅ Available | B2B SaaS, internal management systems, platform products |
 | **Claude Code Prompt Design** | 🟢 Build | ✅ Available | Designing prompts for AI-driven code generation |
+| **Convention Extraction** | 🟢 Build | ✅ Available | Extracting cross-module conventions from code after each module |
 | **Independent Code Review** | 🟡 Verify | ✅ Available | Post-build verification against design docs. Runtime in MIMIR-BO |
 | **Meta-Knowledge Extraction** | 🟣 Reflect | ✅ Available | Extracting reusable insights from AI collaboration |
 | Mobile Apps | 🔵 Plan | ⬜ Planned | iOS/Android native or cross-platform |
@@ -162,3 +166,4 @@ skills/
 | v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
 | v1.7 | 2025-02-02 | Claude Code Prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization + Healthcheck Alignment |
 | v1.8 | 2025-02-04 | Added Review Agent skill (independent code review). Introduced lifecycle stages: Plan → Build → Verify → Reflect → Retrospect. Synced structure tree to reflect all existing skills (claude-code-prompt, meta-knowledge, review-agent, retro). Backfilled v1.4–v1.7 version history |
+| v1.9 | 2025-02-04 | Added Convention Extraction skill (cross-module consistency). Bridges the gap between design docs (contracts) and code (conventions) |

@@ -58,6 +58,8 @@ MIMIR/
 │       ├── claude-code-prompt/  # Claude Code Prompt design (v2.1)
 │       │   ├── SKILL.md
 │       │   └── templates/       # Prompt templates
+│       ├── convention-extraction/# 🆕 Cross-module conventions
+│       │   └── SKILL.md
 │       ├── review-agent/         # 🆕 Independent code review (Verify)
 │       │   └── SKILL.md
 │       ├── meta-knowledge/      # Meta-knowledge extraction
@@ -79,6 +81,8 @@ MIMIR/
 │       ├── claude-code-prompt/  # Claude Code Prompt 设计 (v2.1)
 │       │   ├── SKILL.md
 │       │   └── templates/       # Prompt 模板
+│       ├── convention-extraction/# 🆕 跨模块约定一致性
+│       │   └── SKILL.md
 │       ├── review-agent/         # 🆕 独立代码审查（验证）
 │       │   └── SKILL.md
 │       ├── meta-knowledge/      # 元知识提炼
@@ -122,6 +126,7 @@ Project brief: [Describe your project]
 | Enterprise Web Projects | ✅ |
 | Claude Code Prompt Design | ✅ |
 | Independent Code Review | ✅ 🆕 |
+| Convention Extraction | ✅ 🆕 |
 | Meta-Knowledge Extraction | ✅ |
 | Mobile Apps | 🚧 Planned |
 | CLI Tools | 🚧 Planned |
@@ -150,6 +155,7 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
+| v1.9 | 2025-02-04 | Added Convention Extraction skill: cross-module consistency via convention snapshots. Bridges gap between design-doc contracts and code-level conventions |
 | v1.8 | 2025-02-04 | Added Review Agent skill: independent code review, quality assurance lifecycle stage. Skills now cover Plan → Build → Verify → Reflect → Retrospect |
 | v1.7 | 2025-02-02 | Claude Code Prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization + Healthcheck Alignment; Added OPEN-ISSUES.md for methodology-level issue tracking |
 | v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
