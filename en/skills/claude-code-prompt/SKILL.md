@@ -83,6 +83,35 @@ Using the above info, automatically run checks:
 
 ---
 
+## Standard Prompt Closing Steps (⚠️ Run on HOST, not inside containers)
+
+> The following commands run on the host terminal. **Do NOT** wrap them in `docker compose exec`.
+> **Must be executed BEFORE the Completion Report** — otherwise the Agent will stop after outputting the report and skip these steps.
+
+### 1. Git Commit
+
+```bash
+git add -A && git commit -m "feat/fix: [brief description]"
+```
+
+### 2. Rebuild by Scope
+
+```bash
+# Backend code changes only:
+docker compose up -d --build backend
+
+# Frontend code changes only:
+docker compose up -d --build frontend
+
+# Both backend + frontend changed:
+docker compose up -d --build backend frontend
+
+# docker-compose.yml itself changed:
+docker compose up -d
+```
+
+---
+
 ## Completion Report
 
 After all steps are completed, report to user:
@@ -111,34 +140,6 @@ If problems occur:
 2. [Common Error 2]: [Solution]
 
 Report specific errors and provide solutions.
-
----
-
-## Standard Prompt Closing Steps (⚠️ Run on HOST, not inside containers)
-
-> The following commands run on the host terminal. **Do NOT** wrap them in `docker compose exec`.
-
-### 1. Git Commit
-
-```bash
-git add -A && git commit -m "feat/fix: [brief description]"
-```
-
-### 2. Rebuild by Scope
-
-```bash
-# Backend code changes only:
-docker compose up -d --build backend
-
-# Frontend code changes only:
-docker compose up -d --build frontend
-
-# Both backend + frontend changed:
-docker compose up -d --build backend frontend
-
-# docker-compose.yml itself changed:
-docker compose up -d
-```
 ```
 
 ---
@@ -360,7 +361,7 @@ These 13 principles were extracted from real project execution experience. Apply
 | 10 | **DiscrepancyReport** | When discrepancies are found between reference documents, Agent resolves by choosing the approach that makes the system work, but must report the discrepancy + decision rationale + patch the source document directly. **Pay special attention to shared data across Prompts** (e.g., test user credentials, port numbers, database names) | Example 1: DDL has 4 status ENUM values but state-machines.md defines 5 states → Agent uses state machine as authority, updates DDL. Example 2: seed.py sets password to `Trainer@2025` but conftest.py hardcodes `Test123456` → 24 tests ERROR, root cause is a single mismatched password string |
 | 11 | **FullStackFix** | Fix prompts must list changes for **every affected layer** (backend API, frontend calls, test cases, old endpoint cleanup, config files). Agents tend to fix only one layer and stop, leaving frontend/backend out of sync | Example: Backend adds `GET /chips/available` replacing `/tasks/my-chips`, but fix prompt only modifies backend. Frontend still calls old endpoint → 404. Tests still assert old field names → fail. Correct approach: fix prompt explicitly lists `backend/`, `frontend/`, `tests/`, `old endpoint removal` as four change blocks |
 | 12 | **InlineAPIContract** | Prompts must **embed exact API request/response JSON schemas inline**, not just say "refer to api-design.md". Agents drift from referenced doc details (field names, paths, nesting) when generating large code volumes; inline schemas are the only reliable fidelity mechanism | Example: api-design.md defines `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`, prompt just says "refer to api-design.md". Agent generates `{id, model, functions: ["KWS"]}` → frontend field parsing fails entirely |
-| 13 | **HostCommitBuild** | Every prompt must end with **standard closing steps** that run on **HOST** (not inside `docker compose exec`). Steps: 1) `git add -A && git commit -m "..."` 2) Rebuild containers by scope. Agents tend to wrap git commands inside `docker compose exec`, resulting in in-container commits or missed rebuilds | Example: Fix prompt ends with `docker compose exec backend sh -c "git add -A && git commit"` — this is wrong. Correct: bare `git add -A && git commit` (HOST command), then `docker compose up -d --build frontend` (HOST command). See "Standard Prompt Closing Steps" template |
+| 13 | **HostCommitBuild** | Every prompt must include **standard closing steps** that run on **HOST** (not inside `docker compose exec`). Steps: 1) `git add -A && git commit -m "..."` 2) Rebuild containers by scope. **Critical: closing steps must come BEFORE the Completion Report** — Agent stops after outputting the report, anything after it gets skipped | Example: Fix prompt had git commit and docker build at the very end, after the completion report. Agent output "✅ Complete" and stopped — git commit and rebuild were never executed |
 
 ### Recommended Granularity
 
@@ -432,4 +433,4 @@ See: `templates/` directory for actual cases
 | v2.2 | 2025-02-03 | Added pre-gate DependencyResolutionGate; added 10th Quality Principle DiscrepancyReport (cross-document discrepancy reporting), based on s-1-2 task decomposition experience |
 | v2.3 | 2025-02-03 | Enhanced UserAcceptGuide (#8) with delivery format requirement: final prompt must generate a standalone user verification guide file, based on s-1-2 post-execution acceptance experience |
 | v2.4 | 2025-02-04 | Added 11th principle FullStackFix (fixes must cover every layer in the stack) and 12th principle InlineAPIContract (prompts must embed exact API schemas inline), based on s-1-2 frontend-backend integration testing experience |
-| v2.5 | 2025-02-04 | Added 13th principle HostCommitBuild (closing steps must run on HOST); enhanced #5 HostEnvAlign to distinguish dev commands vs host commands; added "Standard Prompt Closing Steps" template block, based on s-1-2/s-1-3 patch prompt where git commit was incorrectly placed inside container |
+| v2.5 | 2025-02-04 | Added 13th principle HostCommitBuild (closing steps must run on HOST and come BEFORE completion report); enhanced #5 HostEnvAlign to distinguish dev commands vs host commands; reordered Prompt template: Verification → Closing Steps → Completion Report → Error Handling (prevents Agent from skipping git/rebuild after outputting report), based on s-1-2/s-1-3 patch prompt execution experience |
