@@ -1,6 +1,6 @@
 # Software Project Startup Methodology - Skill System
 
-> **Version**: v1.0  
+> **Version**: v1.8  
 > **Created**: 2025-01-27  
 > **Maintenance**: Continuously updated through project retrospectives  
 > **Target Users**: AI Agents (like Claude) or human developers/architects
@@ -42,11 +42,26 @@ This is an **executable software project startup methodology**, different from t
 
 ---
 
+## Skill Lifecycle Stages
+
+Skills in MIMIR map to stages of the development lifecycle:
+
+```
+🔵 Plan          →  🟢 Build            →  🟡 Verify          →  🟣 Reflect        →  ⚪ Retrospect
+project-kickoff     claude-code-prompt      review-agent            meta-knowledge      retro
+```
+
+Not all stages are required for every project, but the sequence represents the natural flow of development.
+
+---
+
 ## Skill System Structure
 
 ```
 skills/
 ├── SKILL-INDEX.md                          # 📍 You are here - Entry document
+│
+│ ── 🔵 PLAN ──────────────────────────────────────────────────────────────────
 │
 ├── project-kickoff/                        # Project startup methodology
 │   ├── SKILL.md                            # Main document - Project classification decision tree
@@ -56,13 +71,13 @@ skills/
 │   │   ├── phase-1-requirements.md         # Requirements analysis phase
 │   │   ├── phase-2-tech-selection.md       # Technology selection phase
 │   │   ├── phase-3-system-design.md        # System design phase
-│   │   ├── phase-4-testing.md              # 🆕 Testing strategy phase
-│   │   ├── phase-5-documentation.md        # 🆕 Documentation delivery phase
-│   │   ├── phase-3-ui-design-principles.md # 🆕 UI/UX design principles
+│   │   ├── phase-3-ui-design-principles.md # UI/UX design principles
+│   │   ├── phase-4-testing.md              # Testing strategy phase
+│   │   ├── phase-5-documentation.md        # Documentation delivery phase
 │   │   └── checklists/                     # Checklists
-│   │       ├── security-checklist.md       # Security checklist
-│   │       ├── production-readiness.md     # Production readiness checklist
-│   │       └── enterprise-concerns.md      # Enterprise concerns
+│   │       ├── security-checklist.md
+│   │       ├── production-readiness.md
+│   │       └── enterprise-concerns.md
 │   │
 │   ├── mobile-app/                         # Mobile Apps (Future expansion)
 │   │   └── SKILL.md
@@ -71,27 +86,54 @@ skills/
 │   │   └── SKILL.md
 │   │
 │   └── templates/                          # Document templates
-│       ├── prd-template.md                 # PRD template
-│       ├── tech-selection-template.md      # Tech selection template
-│       ├── database-design-template.md     # Database design template
-│       ├── api-design-template.md          # API design template
-│       └── project-control-template.md     # Project control document template
+│       ├── prd-template.md
+│       ├── tech-selection-template.md
+│       ├── database-design-template.md
+│       ├── api-design-template.md
+│       ├── project-control-template.md
+│       ├── doc-dependencies-template.md
+│       └── change-review-checklist-template.md
+│
+│ ── 🟢 BUILD ─────────────────────────────────────────────────────────────────
+│
+├── claude-code-prompt/                     # Claude Code Prompt design
+│   ├── SKILL.md                            # Prompt structure, quality principles, task decomposition
+│   └── templates/                          # Prompt templates
+│       └── 01-project-init-template.md
+│
+│ ── 🟡 VERIFY ────────────────────────────────────────────────────────────────
+│
+├── review-agent/                           # 🆕 Independent code review (Quality Assurance)
+│   └── SKILL.md                            # Review dimensions, design principles, report format
+│                                           # Runtime: MIMIR-BO review-agent/
+│
+│ ── 🟣 REFLECT ───────────────────────────────────────────────────────────────
+│
+├── meta-knowledge/                         # Meta-knowledge extraction
+│   └── SKILL.md                            # Extract reusable insights from AI collaboration
+│
+│ ── ⚪ RETROSPECT ─────────────────────────────────────────────────────────────
 │
 └── retro/                                  # Retrospective extraction tool
     ├── RETRO-GUIDE.md                      # Retrospective guide document
-    └── RETRO-TEMPLATE.md                   # Retrospective record template
+    ├── RETRO-TEMPLATE.md                   # Retrospective record template
+    ├── retro-doc-consistency.md            # Document consistency retrospective
+    └── retro-integration-testing-download.md  # Integration testing retrospective
 ```
 
 ---
 
 ## Currently Available Skills
 
-| Skill | Status | Applicable Scenarios |
-|-------|:------:|----------------------|
-| **Enterprise Web Projects** | ✅ Available | B2B SaaS, internal management systems, platform products |
-| Mobile Apps | ⬜ Planned | iOS/Android native or cross-platform |
-| CLI Tools | ⬜ Planned | Command-line tools, scripts |
-| Data Pipelines | ⬜ Planned | ETL, data processing |
+| Skill | Stage | Status | Applicable Scenarios |
+|-------|:-----:|:------:|----------------------|
+| **Enterprise Web Projects** | 🔵 Plan | ✅ Available | B2B SaaS, internal management systems, platform products |
+| **Claude Code Prompt Design** | 🟢 Build | ✅ Available | Designing prompts for AI-driven code generation |
+| **Independent Code Review** | 🟡 Verify | ✅ Available | Post-build verification against design docs. Runtime in MIMIR-BO |
+| **Meta-Knowledge Extraction** | 🟣 Reflect | ✅ Available | Extracting reusable insights from AI collaboration |
+| Mobile Apps | 🔵 Plan | ⬜ Planned | iOS/Android native or cross-platform |
+| CLI Tools | 🔵 Plan | ⬜ Planned | Command-line tools, scripts |
+| Data Pipelines | 🔵 Plan | ⬜ Planned | ETL, data processing |
 
 ---
 
@@ -113,5 +155,10 @@ skills/
 |---------|------|---------|
 | v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |
 | v1.1 | 2025-01-27 | Added testing strategy (phase-4-testing.md) and documentation delivery (phase-5-documentation.md) phases |
-| v1.2 | 2025-02-01 | Added UI/UX design principles (phase-3-ui-design-principles.md), including wizard pattern and role-based experience guidance |
-| v1.3 | 2025-02-02 | claude-code-prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization Principle + Healthcheck Path Alignment |
+| v1.2 | 2025-01-28 | Added document consistency management templates (doc-dependencies-template.md, change-review-checklist-template.md) |
+| v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/) for AI collaboration insights |
+| v1.4 | 2025-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill (claude-code-prompt/), based on Task Decomposition validation. *Note: SKILL-INDEX structure tree not updated at time of release* |
+| v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |
+| v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
+| v1.7 | 2025-02-02 | Claude Code Prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization + Healthcheck Alignment |
+| v1.8 | 2025-02-04 | Added Review Agent skill (independent code review). Introduced lifecycle stages: Plan → Build → Verify → Reflect → Retrospect. Synced structure tree to reflect all existing skills (claude-code-prompt, meta-knowledge, review-agent, retro). Backfilled v1.4–v1.7 version history |

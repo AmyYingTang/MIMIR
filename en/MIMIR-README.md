@@ -37,7 +37,7 @@ The name MIMIR comes from **the guardian of the Well of Wisdom** in Norse mythol
 MIMIR/
 ├── SKILL-INDEX.md                      # 📍 Entry point - Start here
 │
-├── project-kickoff/                    # Project startup methodology
+├── project-kickoff/                    # 🔵 PLAN — Project startup methodology
 │   ├── SKILL.md                        # Project classification decision tree
 │   │
 │   ├── enterprise-web/                 # 🏢 Enterprise Web Projects
@@ -45,7 +45,7 @@ MIMIR/
 │   │   ├── phase-1-requirements.md     # Requirements analysis
 │   │   ├── phase-2-tech-selection.md   # Technology selection
 │   │   ├── phase-3-system-design.md    # System design
-│   │   ├── phase-3-ui-design-principles.md  # 🆕 UI/UX design principles
+│   │   ├── phase-3-ui-design-principles.md  # UI/UX design principles
 │   │   ├── phase-4-testing.md          # Testing strategy
 │   │   ├── phase-5-documentation.md    # Documentation delivery
 │   │   └── checklists/                 # Checklists
@@ -55,7 +55,18 @@ MIMIR/
 │       ├── tech-selection-template.md
 │       └── project-control-template.md
 │
-└── retro/                              # Retrospective extraction tool
+├── claude-code-prompt/                 # 🟢 BUILD — AI-driven code generation
+│   ├── SKILL.md                        # Prompt structure & quality principles
+│   └── templates/
+│
+├── review-agent/                       # 🟡 VERIFY — Independent code review
+│   └── SKILL.md                        # Review dimensions, report format
+│                                       # Runtime: MIMIR-BO review-agent/
+│
+├── meta-knowledge/                     # 🟣 REFLECT — Insight extraction
+│   └── SKILL.md
+│
+└── retro/                              # ⚪ RETROSPECT — Lessons learned
     └── RETRO-GUIDE.md
 ```
 
@@ -87,12 +98,15 @@ Claude will follow MIMIR guidelines to ask questions, give suggestions, and prod
 
 ## Currently Supported Project Types
 
-| Type | Status | Applicable Scenarios |
-|------|:------:|----------------------|
-| **Enterprise Web Projects** | ✅ | B2B SaaS, internal management systems, platform products, multi-user systems |
-| Mobile Apps | 🚧 | iOS/Android native or cross-platform |
-| CLI Tools | 🚧 | Command-line tools, scripts |
-| Data Pipelines | 🚧 | ETL, data processing |
+| Type | Stage | Status | Applicable Scenarios |
+|------|:-----:|:------:|----------------------|
+| **Enterprise Web Projects** | 🔵 Plan | ✅ | B2B SaaS, internal management systems, platform products, multi-user systems |
+| **Claude Code Prompt Design** | 🟢 Build | ✅ | Designing prompts for AI-driven code generation |
+| **Independent Code Review** | 🟡 Verify | ✅ | Post-build verification against design docs |
+| **Meta-Knowledge Extraction** | 🟣 Reflect | ✅ | Extracting reusable insights from AI collaboration |
+| Mobile Apps | 🔵 Plan | 🚧 | iOS/Android native or cross-platform |
+| CLI Tools | 🔵 Plan | 🚧 | Command-line tools, scripts |
+| Data Pipelines | 🔵 Plan | 🚧 | ETL, data processing |
 
 ---
 
@@ -150,6 +164,10 @@ Frontend interaction guidelines distilled from real project experience:
 - Admins get traditional table/form layouts
 - Post-login Launchpad replaces Dashboard for end users
 - Configuration-driven dynamic UI adaptation
+
+### 🔍 Independent Code Review
+
+After code is generated, a separate review agent compares the implementation against design documents — catching discrepancies that self-tests miss. Covers API contract alignment, shared data consistency, frontend-backend field matching, state/enum consistency, and test coverage sanity.
 
 ### 🔄 Retrospective-Driven Updates
 
@@ -221,6 +239,7 @@ MIT
 
 | Version | Date | Updates |
 |---------|------|---------|
+| v1.8 | 2025-02-04 | Added Review Agent skill: independent code review, lifecycle stages (Plan → Build → Verify → Reflect → Retrospect) |
 | v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
 | v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |
 | v1.4 | 2025-01-31 | Added Core Principles and Claude Code Prompt Skill, based on Task Decomposition validation |

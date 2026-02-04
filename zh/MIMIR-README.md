@@ -37,7 +37,7 @@ MIMIR 的名字来自北欧神话中**智慧之泉的守护者**。奥丁为了�
 MIMIR/
 ├── SKILL-INDEX.md                      # 📍 入口 - 从这里开始
 │
-├── project-kickoff/                    # 项目启动方法论
+├── project-kickoff/                    # 🔵 规划 — 项目启动方法论
 │   ├── SKILL.md                        # 项目分类决策树
 │   │
 │   ├── enterprise-web/                 # 🏢 企业级 Web 项目
@@ -45,7 +45,7 @@ MIMIR/
 │   │   ├── phase-1-requirements.md     # 需求分析
 │   │   ├── phase-2-tech-selection.md   # 技术选型
 │   │   ├── phase-3-system-design.md    # 系统设计
-│   │   ├── phase-3-ui-design-principles.md  # 🆕 UI/UX 设计原则
+│   │   ├── phase-3-ui-design-principles.md  # UI/UX 设计原则
 │   │   ├── phase-4-testing.md          # 测试策略
 │   │   ├── phase-5-documentation.md    # 文档交付
 │   │   └── checklists/                 # 检查清单
@@ -55,7 +55,18 @@ MIMIR/
 │       ├── tech-selection-template.md
 │       └── project-control-template.md
 │
-└── retro/                              # 复盘萃取工具
+├── claude-code-prompt/                 # 🟢 构建 — AI 驱动的代码生成
+│   ├── SKILL.md                        # Prompt 结构与质量原则
+│   └── templates/
+│
+├── review-agent/                       # 🟡 验证 — 独立代码审查
+│   └── SKILL.md                        # 审查维度、报告格式
+│                                       # 运行时: MIMIR-BO review-agent/
+│
+├── meta-knowledge/                     # 🟣 反思 — 洞察提炼
+│   └── SKILL.md
+│
+└── retro/                              # ⚪ 复盘 — 经验萃取
     └── RETRO-GUIDE.md
 ```
 
@@ -87,12 +98,15 @@ Claude 会根据 MIMIR 的指南，主动提问、给出建议、产出文档。
 
 ## 当前支持的项目类型
 
-| 类型 | 状态 | 适用场景 |
-|------|:----:|----------|
-| **企业级 Web 项目** | ✅ | B2B SaaS、内部管理系统、平台型产品、多用户系统 |
-| 移动端 App | 🚧 | iOS/Android 原生或跨平台 |
-| CLI 工具 | 🚧 | 命令行工具、脚本 |
-| 数据管道 | 🚧 | ETL、数据处理 |
+| 类型 | 阶段 | 状态 | 适用场景 |
+|------|:----:|:----:|----------|
+| **企业级 Web 项目** | 🔵 规划 | ✅ | B2B SaaS、内部管理系统、平台型产品、多用户系统 |
+| **Claude Code Prompt 设计** | 🟢 构建 | ✅ | 为 AI 驱动的代码生成设计 Prompt |
+| **独立代码审查** | 🟡 验证 | ✅ | 构建完成后对照设计文档验证代码一致性 |
+| **元知识提炼** | 🟣 反思 | ✅ | 从 AI 协作中提取可复用洞察 |
+| 移动端 App | 🔵 规划 | 🚧 | iOS/Android 原生或跨平台 |
+| CLI 工具 | 🔵 规划 | 🚧 | 命令行工具、脚本 |
+| 数据管道 | 🔵 规划 | 🚧 | ETL、数据处理 |
 
 ---
 
@@ -148,6 +162,10 @@ Q: 预计用户量级？
 - 管理员使用传统表格/表单布局
 - 登录后引导页（Launchpad）替代 Dashboard
 - 配置驱动的 UI 动态适配
+
+### 🔍 独立代码审查
+
+代码生成后，独立的 review agent 对照设计文档检查实现——捕获自测无法发现的偏差。覆盖 API 契约对齐、共享数据一致性、前后端字段匹配、状态枚举一致性和测试覆盖合理性。
 
 ### 🔄 复盘驱动更新
 
@@ -219,6 +237,7 @@ MIT
 
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
+| v1.8 | 2025-02-04 | 添加 Review Agent skill：独立代码审查、生命周期阶段（规划 → 构建 → 验证 → 反思 → 复盘）|
 | v1.6 | 2025-02-01 | 添加 UI/UX 设计原则 (phase-3-ui-design-principles.md)：向导式交互、角色分层体验、配置驱动 UI 适配 |
 | v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0：模板变量、交互模式标记、连接测试；核心原则 v1.1：新增"尽早验证输入" |
 | v1.4 | 2025-01-31 | 添加核心原则 (CORE-PRINCIPLES.md) 和 Claude Code Prompt Skill，基于 Task Decomposition 验证实践 |
