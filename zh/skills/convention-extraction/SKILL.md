@@ -1,8 +1,8 @@
 # Skill: Convention Extraction — 跨模块一致性
 
-> **版本**: v0.1  
+> **版本**: v0.2  
 > **创建日期**: 2025-02-04  
-> **最后更新**: 2025-02-04  
+> **最后更新**: 2025-02-05  
 > **分类**: 构建（Prompt 前置）  
 > **运行时**: Claude Code CLI 或手动提取
 
@@ -322,6 +322,47 @@ retro                    → 完善提取维度
 
 ---
 
+## 使用模式：Convention 作为跨模块修复队列
+
+除了作为一致性参考之外，convention snapshot 还天然充当**跨模块的修复队列**。
+
+### 模式描述
+
+当 review-agent 或人工审查发现不一致时（如同一个常量在三处重复定义），这些不一致记入 convention snapshot 的 inconsistency 部分。下一个模块在任务分解时扫描这份列表，如果新模块恰好会接触相关代码，就"顺手"在该模块中修复——零额外成本的闭环。
+
+```
+模块 N review → 发现不一致（如 FUNCTION_TYPE_NAMES 三处重复）
+    ↓ 记入 convention snapshot inconsistency 列表
+模块 N+1 分解 → 扫描 inconsistency 列表
+    ↓ 此模块恰好要建 constants.py
+模块 N+1 执行 → 建立权威定义 + 清理重复 → 闭环
+```
+
+### 关键原则
+
+- **谁第一个碰到这块代码，谁就顺手修**。不需要单独的"修复冲刺"。
+- Inconsistency 列表是**追加写入**的：review 发现新的就加进去，模块修复了的就标记为已解决。
+- 如果某条 inconsistency 跨了多个模块都没人碰到，它会在列表中积累——这本身就是一个信号，说明可能需要专门的修复 prompt。
+
+### 在 snapshot 中的记录格式
+
+在 `project-conventions.md` 中增加一个 inconsistency 区域：
+
+```markdown
+## 已知不一致（待修复）
+
+| ID | 描述 | 发现于 | 涉及文件 | 状态 |
+|----|------|--------|----------|------|
+| INC-001 | FUNCTION_TYPE_NAMES 在 enums.py, seed.py, constants.py 三处重复 | s-1-2 review | backend/app/ | ✅ s-2-1 P01 修复 |
+| INC-002 | 日期格式 ISO vs Unix timestamp 混用 | s-1-2 review | api/, frontend/ | ⬜ 待修复 |
+```
+
+### 来源
+
+s-1-2 review 发现 `FUNCTION_TYPE_NAMES` 三处重复定义 → 记入 conventions inconsistency → s-2-1 P01 正好需要建 `constants.py` 权威定义 → 顺手清理三处重复。零额外成本的闭环。这验证了 convention 文档不只是记录，它是跨模块的自然修复队列。
+
+---
+
 ## 反模式
 
 | 反模式 | 为什么是错的 | 应该怎么做 |
@@ -339,3 +380,4 @@ retro                    → 完善提取维度
 | 版本 | 日期 | 变更内容 |
 |------|------|----------|
 | v0.1 | 2025-02-04 | 初始版本。5 个提取维度、3 种提取方法、prompt 模板 |
+| v0.2 | 2025-02-05 | 新增"使用模式：Convention 作为跨模块修复队列"，基于 s-1-2 review → s-2-1 闭环修复的实践验证 |

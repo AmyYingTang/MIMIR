@@ -1,8 +1,8 @@
 # Skill: Convention Extraction — Cross-Module Consistency
 
-> **Version**: v0.1  
+> **Version**: v0.2  
 > **Created**: 2025-02-04  
-> **Last Updated**: 2025-02-04  
+> **Last Updated**: 2025-02-05  
 > **Category**: Build (Pre-Prompt)  
 > **Runtime**: Claude Code CLI or manual extraction
 
@@ -324,6 +324,47 @@ retro                    → Refines extraction dimensions
 
 ---
 
+## Usage Pattern: Conventions as Cross-Module Fix Queue
+
+Beyond serving as a consistency reference, the convention snapshot naturally acts as a **cross-module fix queue**.
+
+### Pattern Description
+
+When review-agent or manual review discovers inconsistencies (e.g., the same constant defined in three places), these inconsistencies are recorded in the convention snapshot's inconsistency section. The next module scans this list during task decomposition, and if that module happens to touch the relevant code, it fixes the issue "in passing" — a zero-cost closed loop.
+
+```
+Module N review → discovers inconsistency (e.g., FUNCTION_TYPE_NAMES duplicated 3x)
+    ↓ record in convention snapshot inconsistency list
+Module N+1 decomposition → scans inconsistency list
+    ↓ this module happens to need constants.py
+Module N+1 execution → establishes authoritative definition + cleans duplicates → closed loop
+```
+
+### Key Principles
+
+- **Whoever first touches the code fixes it.** No separate "fix sprint" needed.
+- The inconsistency list is **append-only writes**: reviews add new findings, modules mark resolved items as fixed.
+- If an inconsistency goes untouched across multiple modules, it accumulates in the list — this itself is a signal that a dedicated fix prompt may be needed.
+
+### Recording Format in Snapshot
+
+Add an inconsistency section to `project-conventions.md`:
+
+```markdown
+## Known Inconsistencies (Pending Fix)
+
+| ID | Description | Found in | Files Involved | Status |
+|----|-------------|----------|----------------|--------|
+| INC-001 | FUNCTION_TYPE_NAMES duplicated in enums.py, seed.py, constants.py | s-1-2 review | backend/app/ | ✅ Fixed in s-2-1 P01 |
+| INC-002 | Date format ISO vs Unix timestamp mixed usage | s-1-2 review | api/, frontend/ | ⬜ Pending |
+```
+
+### Origin
+
+s-1-2 review discovered `FUNCTION_TYPE_NAMES` duplicated in three places → recorded in conventions inconsistency → s-2-1 P01 happened to need a `constants.py` authoritative definition → cleaned up the three duplicates in passing. Zero additional cost for a complete closed loop. This validated that convention documents are not just records — they are a natural cross-module fix queue.
+
+---
+
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong | What to Do Instead |
@@ -341,3 +382,4 @@ retro                    → Refines extraction dimensions
 | Version | Date | Changes |
 |---------|------|---------|
 | v0.1 | 2025-02-04 | Initial version. 5 extraction dimensions, 3 extraction methods, prompt template |
+| v0.2 | 2025-02-05 | Added "Usage Pattern: Conventions as Cross-Module Fix Queue", validated by s-1-2 review → s-2-1 closed-loop fix practice |

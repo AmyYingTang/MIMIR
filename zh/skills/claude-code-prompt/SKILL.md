@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.5  
+> **版本**: v2.6  
 > **创建日期**: 2025-01-31  
-> **最后更新**: 2025-02-04  
+> **最后更新**: 2025-02-05  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
 > **前置要求**: 已完成系统设计阶段，有明确的技术规格
 
@@ -339,7 +339,19 @@ mkdir -p voice-model-platform/backend
    - 存在"需决策"依赖 → 产出 DR 文档，列出每个依赖的决策选项（如 Mock、Seed、Skip），交由用户确认后再继续
 4. **DR 文档格式**：每条记录包含 `DR-编号`、依赖描述、可选方案、推荐方案及理由
 
-**来源**：s-1-2 模型训练模块任务分解实践。该模块依赖 s-1-1 的用户和芯片数据，如果不先解决"测试时用什么数据"的问题，分解出的 Prompt 会假设数据存在而在执行时失败。
+**"就绪"判定标准：**
+
+"已就绪"不能仅意味着"表/模型存在"。依赖类型不同，就绪标准也不同：
+
+| 依赖类型 | 最低就绪标准 |
+|----------|-------------|
+| 数据库表/模型 | 表已创建，迁移已执行 |
+| 种子数据（通用） | 数据已填充，可查询 |
+| 种子数据（权限类） | **必须覆盖全角色层的测试用户**：至少包含绕过者（如 SUPER_ADMIN）、正常通过者（如 ADMIN）、被拒绝者（如 USER）。缺少任何一层，权限中间件的真实逻辑就无法被测试覆盖 |
+| 服务接口 | 接口可调用，返回预期格式 |
+| 配置/环境变量 | 值已设置，格式正确 |
+
+**来源**：s-1-2 模型训练模块任务分解实践。该模块依赖 s-1-1 的用户和芯片数据，如果不先解决"测试时用什么数据"的问题，分解出的 Prompt 会假设数据存在而在执行时失败。s-2-1 进一步暴露了权限类依赖的特殊性：seed 数据中只有 superadmin（绕过权限检查）和 test_trainer（被拒绝），没有 ADMIN 角色用户，导致 `require_admin_permission` 的正常通过路径成为测试黑洞——Gate 判定"就绪"，但实际无法测试真正的权限逻辑。
 
 ---
 
@@ -362,6 +374,14 @@ mkdir -p voice-model-platform/backend
 | 11 | **FullStackFix** | 修复 Prompt 必须列出**每一个受影响层**的改动（后端 API、前端调用、测试用例、旧端点清理、配置文件）。Agent 倾向于只修一层就停，导致前后端不同步 | 实例：后端新增 `GET /chips/available` 替代旧的 `/tasks/my-chips`，但 fix prompt 只改了后端。前端仍调旧端点 → 404。测试断言仍用旧字段 → 失败。正确做法：fix prompt 内显式列出 `backend/`, `frontend/`, `tests/`, `旧端点删除` 四个改动区块 |
 | 12 | **InlineAPIContract** | Prompt 必须**内嵌精确的 API 请求/响应 JSON 模式**，而不是仅仅写"参考 api-design.md"。Agent 在生成大量代码时会偏离引用文档的细节（字段名、路径、嵌套结构），内嵌模式是唯一可靠的保真手段 | 实例：api-design.md 定义返回 `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`，Prompt 只写"参考 api-design.md"。Agent 实际生成了 `{id, model, functions: ["KWS"]}` → 前端字段解析全部失败 |
 | 13 | **HostCommitBuild** | 每个 Prompt 必须以**标准结束步骤**收尾，且这些步骤在 **HOST** 执行（不是 `docker compose exec`）。包含：1) `git add -A && git commit -m "..."` 2) 按影响范围重建容器。**关键：结束步骤必须排在"完成报告"之前**——Agent 输出完成报告后即停止，放在后面会被跳过 | 实例：fix prompt 结尾写了 git commit 和 docker build，但放在完成报告之后。Agent 输出"✅ 完成"就停了，git commit 和 rebuild 完全未执行 |
+
+### 已知工具陷阱
+
+以下是在实际执行中发现的工具级别陷阱。它们不是抽象原则，而是具体的"踩过的坑"——Agent 很可能重复犯同样的错误。
+
+| # | 工具 | 陷阱 | 正确做法 | 来源 |
+|---|------|------|----------|------|
+| T1 | **Alembic** | 禁止手动指定 `--rev-id`。Agent 倾向于使用描述性 ID（如 `add_admin_permissions_table`），这会超过 Alembic 的 `VARCHAR(32)` 长度限制导致数据库崩溃 | 始终使用 `alembic revision --autogenerate` 让工具自动生成 hash ID | s-2-1 权限管理模块执行 |
 
 ### 推荐的分解粒度
 
@@ -434,3 +454,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 | v2.3 | 2025-02-03 | 补充 UserAcceptGuide（#8）交付形式要求：最终 Prompt 必须生成独立的用户验收指南文件，基于 s-1-2 执行后验收经验 |
 | v2.4 | 2025-02-04 | 新增第 11 条 FullStackFix（修复必须覆盖全链路每一层）和第 12 条 InlineAPIContract（Prompt 必须内嵌精确 API 模式），基于 s-1-2 前后端联调验证经验 |
 | v2.5 | 2025-02-04 | 新增第 13 条 HostCommitBuild（结束步骤必须在 HOST 执行且排在完成报告之前）；增强 #5 HostEnvAlign 区分开发命令 vs host 命令；调整 Prompt 模板顺序：验证→结束步骤→完成报告→错误处理（防止 Agent 输出完成报告后跳过 git/rebuild），基于 s-1-2/s-1-3 patch prompt 实际执行经验 |
+| v2.6 | 2025-02-05 | 强化 DependencyResolutionGate"就绪"判定标准——按依赖类型定义最低就绪条件，特别是权限类种子数据必须覆盖全角色层（绕过/通过/拒绝），基于 s-2-1 权限测试黑洞经验；新增"已知工具陷阱"段落（T1: Alembic 禁止手动 --rev-id），基于 s-2-1 执行经验 |

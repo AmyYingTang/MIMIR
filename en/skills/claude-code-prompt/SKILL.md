@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
-> **Version**: v2.5  
+> **Version**: v2.6  
 > **Created**: 2025-01-31  
-> **Last Updated**: 2025-02-04  
+> **Last Updated**: 2025-02-05  
 > **Use Case**: Code generation and project implementation using Claude Code  
 > **Prerequisites**: Completed system design phase with clear technical specifications
 
@@ -339,7 +339,19 @@ Before starting task decomposition, the Agent must check whether the current mod
    - Unresolved dependencies exist → produce DR document listing decision options for each (e.g., Mock, Seed, Skip), then wait for user confirmation before continuing
 4. **DR Document Format**: Each entry includes `DR-ID`, dependency description, available options, recommended option, and rationale
 
-**Origin**: s-1-2 model training module task decomposition. This module depended on user and chip data from s-1-1. Without first resolving "what data to use during testing," the decomposed prompts would assume data existence and fail during execution.
+**Readiness Criteria:**
+
+"Ready" cannot merely mean "table/model exists." Different dependency types have different readiness standards:
+
+| Dependency Type | Minimum Readiness Standard |
+|----------------|---------------------------|
+| Database tables/models | Table created, migration executed |
+| Seed data (general) | Data populated, queryable |
+| Seed data (permission-related) | **Must include test users covering all role tiers**: at minimum a bypasser (e.g., SUPER_ADMIN), a normal-pass user (e.g., ADMIN), and a rejected user (e.g., USER). Missing any tier means the permission middleware's real logic cannot be test-covered |
+| Service interfaces | Endpoint callable, returns expected format |
+| Config/environment variables | Values set, format correct |
+
+**Origin**: s-1-2 model training module task decomposition. This module depended on user and chip data from s-1-1. Without first resolving "what data to use during testing," the decomposed prompts would assume data existence and fail during execution. s-2-1 further exposed the specificity of permission-related dependencies: seed data only had superadmin (bypasses permission checks) and test_trainer (gets rejected), with no ADMIN-role user, leaving `require_admin_permission`'s normal-pass path as a testing black hole — the Gate judged "ready," but the actual permission logic was untestable.
 
 ---
 
@@ -362,6 +374,14 @@ These 13 principles were extracted from real project execution experience. Apply
 | 11 | **FullStackFix** | Fix prompts must list changes for **every affected layer** (backend API, frontend calls, test cases, old endpoint cleanup, config files). Agents tend to fix only one layer and stop, leaving frontend/backend out of sync | Example: Backend adds `GET /chips/available` replacing `/tasks/my-chips`, but fix prompt only modifies backend. Frontend still calls old endpoint → 404. Tests still assert old field names → fail. Correct approach: fix prompt explicitly lists `backend/`, `frontend/`, `tests/`, `old endpoint removal` as four change blocks |
 | 12 | **InlineAPIContract** | Prompts must **embed exact API request/response JSON schemas inline**, not just say "refer to api-design.md". Agents drift from referenced doc details (field names, paths, nesting) when generating large code volumes; inline schemas are the only reliable fidelity mechanism | Example: api-design.md defines `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`, prompt just says "refer to api-design.md". Agent generates `{id, model, functions: ["KWS"]}` → frontend field parsing fails entirely |
 | 13 | **HostCommitBuild** | Every prompt must include **standard closing steps** that run on **HOST** (not inside `docker compose exec`). Steps: 1) `git add -A && git commit -m "..."` 2) Rebuild containers by scope. **Critical: closing steps must come BEFORE the Completion Report** — Agent stops after outputting the report, anything after it gets skipped | Example: Fix prompt had git commit and docker build at the very end, after the completion report. Agent output "✅ Complete" and stopped — git commit and rebuild were never executed |
+
+### Known Tool Traps
+
+The following are tool-level traps discovered in real execution. They are not abstract principles but concrete pitfalls — Agents are highly likely to repeat these same mistakes.
+
+| # | Tool | Trap | Correct Approach | Origin |
+|---|------|------|-----------------|--------|
+| T1 | **Alembic** | Never manually specify `--rev-id`. Agents tend to use descriptive IDs (e.g., `add_admin_permissions_table`), which exceed Alembic's `VARCHAR(32)` length limit and crash the database | Always use `alembic revision --autogenerate` to let the tool generate hash IDs automatically | s-2-1 permission management module execution |
 
 ### Recommended Granularity
 
@@ -434,3 +454,4 @@ See: `templates/` directory for actual cases
 | v2.3 | 2025-02-03 | Enhanced UserAcceptGuide (#8) with delivery format requirement: final prompt must generate a standalone user verification guide file, based on s-1-2 post-execution acceptance experience |
 | v2.4 | 2025-02-04 | Added 11th principle FullStackFix (fixes must cover every layer in the stack) and 12th principle InlineAPIContract (prompts must embed exact API schemas inline), based on s-1-2 frontend-backend integration testing experience |
 | v2.5 | 2025-02-04 | Added 13th principle HostCommitBuild (closing steps must run on HOST and come BEFORE completion report); enhanced #5 HostEnvAlign to distinguish dev commands vs host commands; reordered Prompt template: Verification → Closing Steps → Completion Report → Error Handling (prevents Agent from skipping git/rebuild after outputting report), based on s-1-2/s-1-3 patch prompt execution experience |
+| v2.6 | 2025-02-05 | Strengthened DependencyResolutionGate readiness criteria — defined minimum readiness conditions by dependency type, especially permission-related seed data must cover all role tiers (bypass/pass/reject), based on s-2-1 permission testing black hole experience; added Known Tool Traps section (T1: Alembic must not use manual --rev-id), based on s-2-1 execution experience |
