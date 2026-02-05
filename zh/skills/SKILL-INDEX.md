@@ -1,6 +1,6 @@
 # 软件项目启动方法论 - Skill 体系
 
-> **版本**: v1.9  
+> **版本**: v2.0  
 > **创建日期**: 2025-01-27  
 > **维护方式**: 通过项目复盘持续更新  
 > **适用对象**: AI Agent (如 Claude) 或人类开发者/架构师
@@ -99,7 +99,8 @@ skills/
 ├── claude-code-prompt/                     # Claude Code Prompt 设计
 │   ├── SKILL.md                            # Prompt 结构、质量原则、任务分解
 │   └── templates/                          # Prompt 模板
-│       └── 01-project-init-template.md
+│       ├── 01-project-init-template.md
+│       └── file-download-pattern.md        # 🆕 文件下载模式代码片段
 │
 ├── convention-extraction/                  # 🆕 跨模块约定一致性
 │   └── SKILL.md                            # 提取维度、快照格式、prompt 模板
@@ -121,7 +122,10 @@ skills/
     ├── RETRO-GUIDE.md                      # 复盘引导文档
     ├── RETRO-TEMPLATE.md                   # 复盘记录模板
     ├── retro-doc-consistency.md            # 文档一致性复盘记录
-    └── retro-integration-testing-download.md  # 集成测试复盘记录
+    ├── retro-integration-testing-download.md  # 集成测试复盘记录
+    ├── retro-aggregation-doc-drift.md      # 聚合性文档漂移复盘记录
+    ├── retro-methodology-spiral.md         # 方法论螺旋演进复盘记录
+    └── retro-s22-validation-evidence.md    # 质量原则跨模块实证验证
 ```
 
 ---
@@ -167,3 +171,4 @@ skills/
 | v1.7 | 2025-02-02 | claude-code-prompt v2.1：9 条任务分解质量原则；enterprise-web phase-2 v1.1：全容器化原则 + Healthcheck 路径对齐 |
 | v1.8 | 2025-02-04 | 添加 Review Agent skill（独立代码审查）。引入生命周期阶段：规划 → 构建 → 验证 → 反思 → 复盘。同步结构树以反映所有现有 skill（claude-code-prompt、meta-knowledge、review-agent、retro）。回溯补录 v1.4–v1.7 版本历史 |
 | v1.9 | 2025-02-04 | 添加约定提取 skill（跨模块一致性）。桥接设计文档（契约）与代码（约定）之间的缺口 |
+| v2.0 | 2025-02-05 | 同步目录树：claude-code-prompt/templates 新增 file-download-pattern.md；retro/ 新增 retro-aggregation-doc-drift.md、retro-methodology-spiral.md、retro-s22-validation-evidence.md |

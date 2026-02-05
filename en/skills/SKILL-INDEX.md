@@ -1,6 +1,6 @@
 # Software Project Startup Methodology - Skill System
 
-> **Version**: v1.9  
+> **Version**: v2.0  
 > **Created**: 2025-01-27  
 > **Maintenance**: Continuously updated through project retrospectives  
 > **Target Users**: AI Agents (like Claude) or human developers/architects
@@ -99,7 +99,8 @@ skills/
 ├── claude-code-prompt/                     # Claude Code Prompt design
 │   ├── SKILL.md                            # Prompt structure, quality principles, task decomposition
 │   └── templates/                          # Prompt templates
-│       └── 01-project-init-template.md
+│       ├── 01-project-init-template.md
+│       └── file-download-pattern.md        # 🆕 File download pattern code snippet
 │
 ├── convention-extraction/                  # 🆕 Cross-module convention consistency
 │   └── SKILL.md                            # Extraction dimensions, snapshot format, prompt template
@@ -121,7 +122,10 @@ skills/
     ├── RETRO-GUIDE.md                      # Retrospective guide document
     ├── RETRO-TEMPLATE.md                   # Retrospective record template
     ├── retro-doc-consistency.md            # Document consistency retrospective
-    └── retro-integration-testing-download.md  # Integration testing retrospective
+    ├── retro-integration-testing-download.md  # Integration testing retrospective
+    ├── retro-aggregation-doc-drift.md      # Aggregation document drift retrospective
+    ├── retro-methodology-spiral.md         # Methodology spiral evolution retrospective
+    └── retro-s22-validation-evidence.md    # Quality principle cross-module validation evidence
 ```
 
 ---
@@ -167,3 +171,4 @@ skills/
 | v1.7 | 2025-02-02 | Claude Code Prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization + Healthcheck Alignment |
 | v1.8 | 2025-02-04 | Added Review Agent skill (independent code review). Introduced lifecycle stages: Plan → Build → Verify → Reflect → Retrospect. Synced structure tree to reflect all existing skills (claude-code-prompt, meta-knowledge, review-agent, retro). Backfilled v1.4–v1.7 version history |
 | v1.9 | 2025-02-04 | Added Convention Extraction skill (cross-module consistency). Bridges the gap between design docs (contracts) and code (conventions) |
+| v2.0 | 2025-02-05 | Synced structure tree: claude-code-prompt/templates added file-download-pattern.md; retro/ added retro-aggregation-doc-drift.md, retro-methodology-spiral.md, retro-s22-validation-evidence.md |

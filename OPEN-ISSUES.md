@@ -135,7 +135,20 @@ Backend supports `?token=` query param auth (prioritize Authorization header, fa
 
 Whether later Chrome versions fix the `filename*` encoding handling. Whether short-lived one-time download tokens bypass the issue. Whether this should become a standard technical decision in the enterprise-web skill.
 
-**当前状态 / Status**: 🟡 有 workaround，但未完美解决 / Has workaround, not perfectly resolved
+**当前状态 / Status**: 🟢 已固化为 Prompt 模板片段 / Codified as Prompt template snippet
+
+**解决方案 / Resolution**:
+
+已验证的下载模式（`?token=` query param + 原生 `<a href>` + Content-Disposition 双 filename）已固化为标准 Prompt 模板片段，后续涉及文件下载的 Prompt 可直接引用：
+
+The validated download pattern (`?token=` query param + native `<a href>` + Content-Disposition dual filename) has been codified as a standard Prompt template snippet. Future prompts involving file downloads can reference directly:
+
+- `zh/skills/claude-code-prompt/templates/file-download-pattern.md`
+- `en/skills/claude-code-prompt/templates/file-download-pattern.md`
+
+s-2-2 中申请文件下载再次踩了"路由不存在 + token 不支持 query param"的坑，验证了模板化的必要性。
+
+s-2-2 application file download hit the same "route not registered + token not supported via query param" pitfall again, validating the need for templatization.
 
 ---
 
@@ -151,3 +164,4 @@ Whether later Chrome versions fix the `filename*` encoding handling. Whether sho
 |-------------|-----------|-------------|
 | v1.0 | 2025-02-02 | 初始版本，记录 2 个 open issues（Prompt Spec Fidelity、Change Management Flow）/ Initial version with 2 open issues |
 | v1.1 | 2025-02-04 | 新增 ISSUE-003 浏览器文件下载兼容性 / Added ISSUE-003 Browser File Download Compatibility |
+| v1.2 | 2025-02-05 | ISSUE-003 状态从 🟡 升级为 🟢：下载模式已固化为 Prompt 模板片段 / ISSUE-003 status upgraded from 🟡 to 🟢: download pattern codified as Prompt template snippet |

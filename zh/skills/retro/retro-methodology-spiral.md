@@ -44,8 +44,20 @@ s-2-1 P01 执行
   │ Gate 就绪定义强化、convention-as-fix-queue 模式记录、Alembic 陷阱记录
   ↓
 方法论版本递增
-  claude-code-prompt v2.5 → v2.6
-  convention-extraction v0.1 → v0.2
+  │ claude-code-prompt v2.5 → v2.6
+  │ convention-extraction v0.1 → v0.2
+  ↓
+s-2-2 验证测试
+  │ #11 FullStackFix 再次验证：fix prompt 只改后端，缺前端权限分配页
+  │ #12 InlineAPIContract 再次验证：前端 .permissions 解包 vs 后端直接返回数组
+  │ 422→40100 误映射 → 新原则 #14 ErrorCodeFidelity 诞生
+  │ 前端硬编码值与后端约束批量不一致 → #12 增强（参数约束子场景）
+  ↓
+反馈到 MIMIR
+  │ 原则 #10/#11/#12 从"经验"硬化为"规律"（跨模块二次验证）
+  ↓
+方法论版本递增
+  claude-code-prompt v2.6 → v2.7
 ```
 
 ---
@@ -98,3 +110,4 @@ AI 做了提取、结构化、执行。但"该反思了"这个判断，每次都
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
 | v1.0 | 2025-02-05 | 初始复盘。记录 s-1-1 → s-1-2 → s-2-1 的完整方法论螺旋演进链路 |
+| v1.1 | 2025-02-05 | 追加 s-2-2 节点：#11/#12 二次验证硬化、#14 ErrorCodeFidelity 诞生、#12 参数约束增强。螺旋从 v2.6 延伸到 v2.7 |

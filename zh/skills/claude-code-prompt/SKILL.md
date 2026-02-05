@@ -1,6 +1,6 @@
 # Claude Code Prompt Skill
 
-> **版本**: v2.6  
+> **版本**: v2.7  
 > **创建日期**: 2025-01-31  
 > **最后更新**: 2025-02-05  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
@@ -357,7 +357,7 @@ mkdir -p voice-model-platform/backend
 
 ### 质量原则（实践提炼）
 
-以下 13 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
+以下 14 条原则从真实项目执行经验中提炼。编写或审查 Prompt 时，将其作为检查清单使用。
 
 | # | 原则 | 说明 | 示例 |
 |---|------|------|------|
@@ -372,8 +372,9 @@ mkdir -p voice-model-platform/backend
 | 9 | **ServiceDepChain** | 服务依赖链必须健壮 | 一个组件的配置错误不应级联影响（如错误的 healthcheck 路径不应阻止依赖服务启动） |
 | 10 | **DiscrepancyReport** | 发现参考文档间不一致时，Agent 自行选择能让系统跑通的方案解决，但必须报告差异 + 决策逻辑 + 直接修补源文档。**特别注意跨 Prompt 的共享数据**（如测试用户凭据、端口号、数据库名） | 实例 1：DDL 中 status ENUM 只有 4 个值，但 state-machines.md 定义了 5 个状态 → Agent 以状态机为准，更新 DDL。实例 2：seed.py 设密码为 `Trainer@2025`，但 conftest.py 写死 `Test123456` → 24 个测试全部 ERROR，根因仅是一个密码字符串不一致 |
 | 11 | **FullStackFix** | 修复 Prompt 必须列出**每一个受影响层**的改动（后端 API、前端调用、测试用例、旧端点清理、配置文件）。Agent 倾向于只修一层就停，导致前后端不同步 | 实例：后端新增 `GET /chips/available` 替代旧的 `/tasks/my-chips`，但 fix prompt 只改了后端。前端仍调旧端点 → 404。测试断言仍用旧字段 → 失败。正确做法：fix prompt 内显式列出 `backend/`, `frontend/`, `tests/`, `旧端点删除` 四个改动区块 |
-| 12 | **InlineAPIContract** | Prompt 必须**内嵌精确的 API 请求/响应 JSON 模式**，而不是仅仅写"参考 api-design.md"。Agent 在生成大量代码时会偏离引用文档的细节（字段名、路径、嵌套结构），内嵌模式是唯一可靠的保真手段 | 实例：api-design.md 定义返回 `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`，Prompt 只写"参考 api-design.md"。Agent 实际生成了 `{id, model, functions: ["KWS"]}` → 前端字段解析全部失败 |
+| 12 | **InlineAPIContract** | Prompt 必须**内嵌精确的 API 请求/响应 JSON 模式**，而不是仅仅写"参考 api-design.md"。Agent 在生成大量代码时会偏离引用文档的细节（字段名、路径、嵌套结构），内嵌模式是唯一可靠的保真手段。**API 模式不仅包括字段名和嵌套结构，还必须包括参数校验约束**（`min_length`、`max`、`le`、枚举范围等），否则前端会硬编码不合法的值 | 实例 1：api-design.md 定义返回 `{chip_id, chip_model, available_functions: [{function_type, function_name}]}`，Prompt 只写"参考 api-design.md"。Agent 实际生成了 `{id, model, functions: ["KWS"]}` → 前端字段解析全部失败。实例 2：前端硬编码 `page_size: 1000` 想一次拉全，但后端 Query 参数限制 `le=100`，返回 422。前端密码 min=6 vs 后端 min=8、用户名 max=32 vs 后端 max=50、功能类型只硬编码 3/6 种均属同一模式——Prompt 未内嵌参数约束，前端按自己的猜测写值 |
 | 13 | **HostCommitBuild** | 每个 Prompt 必须以**标准结束步骤**收尾，且这些步骤在 **HOST** 执行（不是 `docker compose exec`）。包含：1) `git add -A && git commit -m "..."` 2) 按影响范围重建容器。**关键：结束步骤必须排在"完成报告"之前**——Agent 输出完成报告后即停止，放在后面会被跳过 | 实例：fix prompt 结尾写了 git commit 和 docker build，但放在完成报告之后。Agent 输出"✅ 完成"就停了，git commit 和 rebuild 完全未执行 |
+| 14 | **ErrorCodeFidelity** | 后端全局异常处理器必须保留 HTTP 状态码的区分度——422（参数校验失败）和 401（认证失败）是完全不同的问题，不能映射到同一个业务错误码。Prompt 涉及异常处理逻辑时，应明确列出各 HTTP 状态码的映射规则 | 实例：FastAPI 的 `RequestValidationError`（422）被全局异常处理器映射成 40100（"未登录或令牌无效"）。排查时表面看是 token 问题，实际是 `page_size=1000` 超出了 `le=100` 的校验上限。根因：Agent 写 exception handler 时把所有非 200 异常"一刀切"映射到少数几个错误码，丢失了错误类型信息 |
 
 ### 已知工具陷阱
 
@@ -455,3 +456,4 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 | v2.4 | 2025-02-04 | 新增第 11 条 FullStackFix（修复必须覆盖全链路每一层）和第 12 条 InlineAPIContract（Prompt 必须内嵌精确 API 模式），基于 s-1-2 前后端联调验证经验 |
 | v2.5 | 2025-02-04 | 新增第 13 条 HostCommitBuild（结束步骤必须在 HOST 执行且排在完成报告之前）；增强 #5 HostEnvAlign 区分开发命令 vs host 命令；调整 Prompt 模板顺序：验证→结束步骤→完成报告→错误处理（防止 Agent 输出完成报告后跳过 git/rebuild），基于 s-1-2/s-1-3 patch prompt 实际执行经验 |
 | v2.6 | 2025-02-05 | 强化 DependencyResolutionGate"就绪"判定标准——按依赖类型定义最低就绪条件，特别是权限类种子数据必须覆盖全角色层（绕过/通过/拒绝），基于 s-2-1 权限测试黑洞经验；新增"已知工具陷阱"段落（T1: Alembic 禁止手动 --rev-id），基于 s-2-1 执行经验 |
+| v2.7 | 2025-02-05 | 新增第 14 条 ErrorCodeFidelity（全局异常处理器必须保留 HTTP 状态码区分度），基于 s-2-2 排查 422→40100 误映射经验；增强 #12 InlineAPIContract 补充参数校验约束子场景（min/max/le/枚举范围），基于 s-2-2 前端硬编码值与后端约束不一致的批量发现 |

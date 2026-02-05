@@ -44,8 +44,20 @@ Feedback into MIMIR
   │ Gate readiness criteria strengthened, convention-as-fix-queue pattern recorded, Alembic trap recorded
   ↓
 Methodology version increments
-  claude-code-prompt v2.5 → v2.6
-  convention-extraction v0.1 → v0.2
+  │ claude-code-prompt v2.5 → v2.6
+  │ convention-extraction v0.1 → v0.2
+  ↓
+s-2-2 validation testing
+  │ #11 FullStackFix re-validated: fix prompt only changed backend, missing frontend permission page
+  │ #12 InlineAPIContract re-validated: frontend .permissions unwrap vs backend direct array
+  │ 422→40100 mismap → new principle #14 ErrorCodeFidelity born
+  │ Frontend hardcoded values vs backend constraints batch mismatch → #12 enhanced (param constraint sub-scenario)
+  ↓
+Feedback into MIMIR
+  │ Principles #10/#11/#12 hardened from "experience" to "law" (cross-module second validation)
+  ↓
+Methodology version increments
+  claude-code-prompt v2.6 → v2.7
 ```
 
 ---
@@ -98,3 +110,4 @@ This evolution chain is the **second layer of MIMIR's self-referential proof**:
 | Version | Date | Changes |
 |---------|------|---------|
 | v1.0 | 2025-02-05 | Initial retrospective. Documents the complete methodology spiral evolution chain from s-1-1 → s-1-2 → s-2-1 |
+| v1.1 | 2025-02-05 | Extended s-2-2 node: #11/#12 second validation hardening, #14 ErrorCodeFidelity born, #12 param constraint enhancement. Spiral extends from v2.6 to v2.7 |
