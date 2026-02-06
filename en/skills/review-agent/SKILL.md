@@ -1,8 +1,8 @@
 # Skill: Review Agent — Independent Code Review
 
 > **Version**: v0.1  
-> **Created**: 2025-02-04  
-> **Last Updated**: 2025-02-04  
+> **Created**: 2026-02-04  
+> **Last Updated**: 2026-02-04  
 > **Category**: Quality Assurance  
 > **Runtime**: MIMIR-BO `review-agent/`
 
@@ -100,4 +100,4 @@ The runtime implementation lives in **MIMIR-BO** (`review-agent/` directory):
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v0.1 | 2025-02-04 | Initial version. 5 review dimensions extracted from s-1-1 and s-1-2 experience |
+| v0.1 | 2026-02-04 | Initial version. 5 review dimensions extracted from s-1-1 and s-1-2 experience |

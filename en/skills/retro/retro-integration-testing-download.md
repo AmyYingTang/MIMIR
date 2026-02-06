@@ -1,6 +1,6 @@
 # Retrospective: Frontend-Backend Integration & File Download
 
-> **Date**: 2025-02-04  
+> **Date**: 2026-02-04  
 > **Type**: Technical Practice / Quality Principle Extraction  
 > **Contributor**: Project Team  
 > **Module**: Model Training Module (async tasks + file download)
@@ -99,4 +99,4 @@ Every prompt must end with:
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-02-04 | Initial retrospective |
+| v1.0 | 2026-02-04 | Initial retrospective |

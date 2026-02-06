@@ -503,6 +503,6 @@ Every important technical decision should be recorded in this format:
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-01-27 | Initial version |
-| v1.1 | 2025-01-27 | Added Testing Strategy (Phase 5) and Documentation Delivery (Phase 6) phases |
-| v1.2 | 2025-02-02 | Phase 2 update: Full Containerization Principle (Dev=Deploy) and Healthcheck Path Alignment |
+| v1.0 | 2026-01-27 | Initial version |
+| v1.1 | 2026-01-27 | Added Testing Strategy (Phase 5) and Documentation Delivery (Phase 6) phases |
+| v1.2 | 2026-02-02 | Phase 2 update: Full Containerization Principle (Dev=Deploy) and Healthcheck Path Alignment |

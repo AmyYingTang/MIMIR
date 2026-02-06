@@ -399,5 +399,5 @@ Before tech selection is complete, ensure these questions are answered:
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-01-27 | Initial version |
-| v1.1 | 2025-02-02 | Added Full Containerization Principle (Dev=Deploy) and Healthcheck Path Alignment best practice, based on s-1-1 execution experience |
+| v1.0 | 2026-01-27 | Initial version |
+| v1.1 | 2026-02-02 | Added Full Containerization Principle (Dev=Deploy) and Healthcheck Path Alignment best practice, based on s-1-1 execution experience |

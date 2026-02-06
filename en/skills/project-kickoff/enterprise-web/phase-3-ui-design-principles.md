@@ -180,4 +180,4 @@ Frontend should **dynamically adapt** based on backend configuration, never hard
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v1.0 | 2025-02-01 | Initial version, distilled from Voice Model Platform UI Review |
+| v1.0 | 2026-02-01 | Initial version, distilled from Voice Model Platform UI Review |

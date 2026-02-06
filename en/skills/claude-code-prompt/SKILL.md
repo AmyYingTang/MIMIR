@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
 > **Version**: v2.7  
-> **Created**: 2025-01-31  
-> **Last Updated**: 2025-02-05  
+> **Created**: 2026-01-31  
+> **Last Updated**: 2026-02-05  
 > **Use Case**: Code generation and project implementation using Claude Code  
 > **Prerequisites**: Completed system design phase with clear technical specifications
 
@@ -448,12 +448,12 @@ See: `templates/` directory for actual cases
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v1.0 | 2025-01-31 | Initial version based on user auth module validation practice |
-| v2.0 | 2025-02-01 | Major update: Template variables `{{variable}}` replace manual input collection; Interactive mode marker `<!-- agent:interactive -->` for dangerous operations; Agent connection test variable naming conventions |
-| v2.1 | 2025-02-02 | Added 9 Task Decompose Quality Principles (ValidateRefs, PathAlign, ProgressSignals, UserVerifyGuide, HostEnvAlign, NamingConvention, IdempotentPrompts, UserAcceptGuide, ServiceDepChain) based on s-1-1 execution experience |
-| v2.2 | 2025-02-03 | Added pre-gate DependencyResolutionGate; added 10th Quality Principle DiscrepancyReport (cross-document discrepancy reporting), based on s-1-2 task decomposition experience |
-| v2.3 | 2025-02-03 | Enhanced UserAcceptGuide (#8) with delivery format requirement: final prompt must generate a standalone user verification guide file, based on s-1-2 post-execution acceptance experience |
-| v2.4 | 2025-02-04 | Added 11th principle FullStackFix (fixes must cover every layer in the stack) and 12th principle InlineAPIContract (prompts must embed exact API schemas inline), based on s-1-2 frontend-backend integration testing experience |
-| v2.5 | 2025-02-04 | Added 13th principle HostCommitBuild (closing steps must run on HOST and come BEFORE completion report); enhanced #5 HostEnvAlign to distinguish dev commands vs host commands; reordered Prompt template: Verification → Closing Steps → Completion Report → Error Handling (prevents Agent from skipping git/rebuild after outputting report), based on s-1-2/s-1-3 patch prompt execution experience |
-| v2.6 | 2025-02-05 | Strengthened DependencyResolutionGate readiness criteria — defined minimum readiness conditions by dependency type, especially permission-related seed data must cover all role tiers (bypass/pass/reject), based on s-2-1 permission testing black hole experience; added Known Tool Traps section (T1: Alembic must not use manual --rev-id), based on s-2-1 execution experience |
-| v2.7 | 2025-02-05 | Added 14th principle ErrorCodeFidelity (global exception handlers must preserve HTTP status code granularity), based on s-2-2 debugging 422→40100 mismap experience; enhanced #12 InlineAPIContract with parameter validation constraint sub-scenario (min/max/le/enum ranges), based on s-2-2 batch discovery of frontend hardcoded values mismatching backend constraints |
+| v1.0 | 2026-01-31 | Initial version based on user auth module validation practice |
+| v2.0 | 2026-02-01 | Major update: Template variables `{{variable}}` replace manual input collection; Interactive mode marker `<!-- agent:interactive -->` for dangerous operations; Agent connection test variable naming conventions |
+| v2.1 | 2026-02-02 | Added 9 Task Decompose Quality Principles (ValidateRefs, PathAlign, ProgressSignals, UserVerifyGuide, HostEnvAlign, NamingConvention, IdempotentPrompts, UserAcceptGuide, ServiceDepChain) based on s-1-1 execution experience |
+| v2.2 | 2026-02-03 | Added pre-gate DependencyResolutionGate; added 10th Quality Principle DiscrepancyReport (cross-document discrepancy reporting), based on s-1-2 task decomposition experience |
+| v2.3 | 2026-02-03 | Enhanced UserAcceptGuide (#8) with delivery format requirement: final prompt must generate a standalone user verification guide file, based on s-1-2 post-execution acceptance experience |
+| v2.4 | 2026-02-04 | Added 11th principle FullStackFix (fixes must cover every layer in the stack) and 12th principle InlineAPIContract (prompts must embed exact API schemas inline), based on s-1-2 frontend-backend integration testing experience |
+| v2.5 | 2026-02-04 | Added 13th principle HostCommitBuild (closing steps must run on HOST and come BEFORE completion report); enhanced #5 HostEnvAlign to distinguish dev commands vs host commands; reordered Prompt template: Verification → Closing Steps → Completion Report → Error Handling (prevents Agent from skipping git/rebuild after outputting report), based on s-1-2/s-1-3 patch prompt execution experience |
+| v2.6 | 2026-02-05 | Strengthened DependencyResolutionGate readiness criteria — defined minimum readiness conditions by dependency type, especially permission-related seed data must cover all role tiers (bypass/pass/reject), based on s-2-1 permission testing black hole experience; added Known Tool Traps section (T1: Alembic must not use manual --rev-id), based on s-2-1 execution experience |
+| v2.7 | 2026-02-05 | Added 14th principle ErrorCodeFidelity (global exception handlers must preserve HTTP status code granularity), based on s-2-2 debugging 422→40100 mismap experience; enhanced #12 InlineAPIContract with parameter validation constraint sub-scenario (min/max/le/enum ranges), based on s-2-2 batch discovery of frontend hardcoded values mismatching backend constraints |

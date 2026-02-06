@@ -1,7 +1,7 @@
 # Prompt Template Snippet: File Download Pattern
 
 > **Version**: v1.0  
-> **Created**: 2025-02-05  
+> **Created**: 2026-02-05  
 > **Use Case**: Any prompt involving browser file downloads  
 > **Origin**: s-1-2 model file download (7 rounds of approach iteration) + s-2-2 application file download (repeated route/token pitfalls)
 
@@ -180,4 +180,4 @@ Specific implementation:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v1.0 | 2025-02-05 | Initial version. Extracted from s-1-2 (7 rounds of download approach iteration) and s-2-2 (repeated route/token pitfalls) |
+| v1.0 | 2026-02-05 | Initial version. Extracted from s-1-2 (7 rounds of download approach iteration) and s-2-2 (repeated route/token pitfalls) |

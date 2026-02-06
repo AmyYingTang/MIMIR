@@ -1,7 +1,7 @@
 # 软件项目启动方法论 - Skill 体系
 
 > **版本**: v2.0  
-> **创建日期**: 2025-01-27  
+> **创建日期**: 2026-01-27  
 > **维护方式**: 通过项目复盘持续更新  
 > **适用对象**: AI Agent (如 Claude) 或人类开发者/架构师
 
@@ -161,14 +161,14 @@ skills/
 
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
-| v1.0 | 2025-01-27 | 初始版本，基于真实企业级项目经验提炼 |
-| v1.1 | 2025-01-27 | 添加测试策略(phase-4-testing.md)和文档交付(phase-5-documentation.md)阶段 |
-| v1.2 | 2025-01-28 | 添加文档一致性管理模板 (doc-dependencies-template.md, change-review-checklist-template.md) |
-| v1.3 | 2025-01-30 | 添加元知识提炼 Skill (meta-knowledge/)，从 AI 协作中提取可复用洞察 |
-| v1.4 | 2025-01-31 | 添加核心原则 (CORE-PRINCIPLES.md) 和 Claude Code Prompt Skill (claude-code-prompt/)，基于任务分解验证实践。*注：发布时未同步更新 SKILL-INDEX 结构树* |
-| v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0：模板变量、交互模式标记、连接测试；核心原则 v1.1：新增"尽早验证输入" |
-| v1.6 | 2025-02-01 | 添加 UI/UX 设计原则 (phase-3-ui-design-principles.md)：向导式交互、角色分层体验、配置驱动 UI 适配 |
-| v1.7 | 2025-02-02 | claude-code-prompt v2.1：9 条任务分解质量原则；enterprise-web phase-2 v1.1：全容器化原则 + Healthcheck 路径对齐 |
-| v1.8 | 2025-02-04 | 添加 Review Agent skill（独立代码审查）。引入生命周期阶段：规划 → 构建 → 验证 → 反思 → 复盘。同步结构树以反映所有现有 skill（claude-code-prompt、meta-knowledge、review-agent、retro）。回溯补录 v1.4–v1.7 版本历史 |
-| v1.9 | 2025-02-04 | 添加约定提取 skill（跨模块一致性）。桥接设计文档（契约）与代码（约定）之间的缺口 |
-| v2.0 | 2025-02-05 | 同步目录树：claude-code-prompt/templates 新增 file-download-pattern.md；retro/ 新增 retro-aggregation-doc-drift.md、retro-methodology-spiral.md、retro-s22-validation-evidence.md |
+| v1.0 | 2026-01-27 | 初始版本，基于真实企业级项目经验提炼 |
+| v1.1 | 2026-01-27 | 添加测试策略(phase-4-testing.md)和文档交付(phase-5-documentation.md)阶段 |
+| v1.2 | 2026-01-28 | 添加文档一致性管理模板 (doc-dependencies-template.md, change-review-checklist-template.md) |
+| v1.3 | 2026-01-30 | 添加元知识提炼 Skill (meta-knowledge/)，从 AI 协作中提取可复用洞察 |
+| v1.4 | 2026-01-31 | 添加核心原则 (CORE-PRINCIPLES.md) 和 Claude Code Prompt Skill (claude-code-prompt/)，基于任务分解验证实践。*注：发布时未同步更新 SKILL-INDEX 结构树* |
+| v1.5 | 2026-02-01 | Claude Code Prompt Skill v2.0：模板变量、交互模式标记、连接测试；核心原则 v1.1：新增"尽早验证输入" |
+| v1.6 | 2026-02-01 | 添加 UI/UX 设计原则 (phase-3-ui-design-principles.md)：向导式交互、角色分层体验、配置驱动 UI 适配 |
+| v1.7 | 2026-02-02 | claude-code-prompt v2.1：9 条任务分解质量原则；enterprise-web phase-2 v1.1：全容器化原则 + Healthcheck 路径对齐 |
+| v1.8 | 2026-02-04 | 添加 Review Agent skill（独立代码审查）。引入生命周期阶段：规划 → 构建 → 验证 → 反思 → 复盘。同步结构树以反映所有现有 skill（claude-code-prompt、meta-knowledge、review-agent、retro）。回溯补录 v1.4–v1.7 版本历史 |
+| v1.9 | 2026-02-04 | 添加约定提取 skill（跨模块一致性）。桥接设计文档（契约）与代码（约定）之间的缺口 |
+| v2.0 | 2026-02-05 | 同步目录树：claude-code-prompt/templates 新增 file-download-pattern.md；retro/ 新增 retro-aggregation-doc-drift.md、retro-methodology-spiral.md、retro-s22-validation-evidence.md |

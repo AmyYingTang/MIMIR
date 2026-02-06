@@ -1,7 +1,7 @@
 # Software Project Startup Methodology - Skill System
 
 > **Version**: v2.0  
-> **Created**: 2025-01-27  
+> **Created**: 2026-01-27  
 > **Maintenance**: Continuously updated through project retrospectives  
 > **Target Users**: AI Agents (like Claude) or human developers/architects
 
@@ -161,14 +161,14 @@ skills/
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-01-27 | Initial version, extracted from real enterprise project experience |
-| v1.1 | 2025-01-27 | Added testing strategy (phase-4-testing.md) and documentation delivery (phase-5-documentation.md) phases |
-| v1.2 | 2025-01-28 | Added document consistency management templates (doc-dependencies-template.md, change-review-checklist-template.md) |
-| v1.3 | 2025-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/) for AI collaboration insights |
-| v1.4 | 2025-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill (claude-code-prompt/), based on Task Decomposition validation. *Note: SKILL-INDEX structure tree not updated at time of release* |
-| v1.5 | 2025-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |
-| v1.6 | 2025-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
-| v1.7 | 2025-02-02 | Claude Code Prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization + Healthcheck Alignment |
-| v1.8 | 2025-02-04 | Added Review Agent skill (independent code review). Introduced lifecycle stages: Plan → Build → Verify → Reflect → Retrospect. Synced structure tree to reflect all existing skills (claude-code-prompt, meta-knowledge, review-agent, retro). Backfilled v1.4–v1.7 version history |
-| v1.9 | 2025-02-04 | Added Convention Extraction skill (cross-module consistency). Bridges the gap between design docs (contracts) and code (conventions) |
-| v2.0 | 2025-02-05 | Synced structure tree: claude-code-prompt/templates added file-download-pattern.md; retro/ added retro-aggregation-doc-drift.md, retro-methodology-spiral.md, retro-s22-validation-evidence.md |
+| v1.0 | 2026-01-27 | Initial version, extracted from real enterprise project experience |
+| v1.1 | 2026-01-27 | Added testing strategy (phase-4-testing.md) and documentation delivery (phase-5-documentation.md) phases |
+| v1.2 | 2026-01-28 | Added document consistency management templates (doc-dependencies-template.md, change-review-checklist-template.md) |
+| v1.3 | 2026-01-30 | Added Meta-Knowledge Extraction Skill (meta-knowledge/) for AI collaboration insights |
+| v1.4 | 2026-01-31 | Added Core Principles (CORE-PRINCIPLES.md) and Claude Code Prompt Skill (claude-code-prompt/), based on Task Decomposition validation. *Note: SKILL-INDEX structure tree not updated at time of release* |
+| v1.5 | 2026-02-01 | Claude Code Prompt Skill v2.0: template variables, interactive mode marker, connection testing; Core Principles v1.1: added "Validate Inputs Early" |
+| v1.6 | 2026-02-01 | Added UI/UX Design Principles (phase-3-ui-design-principles.md): wizard pattern, role-based experience design, config-driven UI adaptation |
+| v1.7 | 2026-02-02 | Claude Code Prompt v2.1: 9 Task Decompose Quality Principles; enterprise-web phase-2 v1.1: Full Containerization + Healthcheck Alignment |
+| v1.8 | 2026-02-04 | Added Review Agent skill (independent code review). Introduced lifecycle stages: Plan → Build → Verify → Reflect → Retrospect. Synced structure tree to reflect all existing skills (claude-code-prompt, meta-knowledge, review-agent, retro). Backfilled v1.4–v1.7 version history |
+| v1.9 | 2026-02-04 | Added Convention Extraction skill (cross-module consistency). Bridges the gap between design docs (contracts) and code (conventions) |
+| v2.0 | 2026-02-05 | Synced structure tree: claude-code-prompt/templates added file-download-pattern.md; retro/ added retro-aggregation-doc-drift.md, retro-methodology-spiral.md, retro-s22-validation-evidence.md |

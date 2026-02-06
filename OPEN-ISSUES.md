@@ -18,7 +18,7 @@ Each issue records the problem description, discovery context, current status, a
 
 ### MIMIR-ISSUE-001: Prompt Spec Fidelity / Prompt 规格保真度
 
-**发现日期 / Discovered**: 2025-02-02  
+**发现日期 / Discovered**: 2026-02-02  
 **发现场景 / Context**: s-1-1 用户认证模块任务分解与执行  
 **相关 Skill / Related Skill**: claude-code-prompt
 
@@ -49,7 +49,7 @@ In prompts, emphasize critical config values with prominent formatting (e.g., `�
 
 ### MIMIR-ISSUE-002: Change Management Flow / 变更管理流程
 
-**发现日期 / Discovered**: 2025-02-02  
+**发现日期 / Discovered**: 2026-02-02  
 **发现场景 / Context**: s-1-1 执行过程中发现需求变更（如 refresh_token 合并到 database-design.md）需要回溯修改多个已生成的 Prompt  
 **相关 Skill / Related Skill**: claude-code-prompt, project-kickoff
 
@@ -102,7 +102,7 @@ Add "reference mapping" to Task Decompose output: each prompt annotates which de
 
 ### MIMIR-ISSUE-003: Browser File Download Compatibility / 浏览器文件下载兼容性
 
-**发现日期 / Discovered**: 2025-02-04  
+**发现日期 / Discovered**: 2026-02-04  
 **发现场景 / Context**: s-1-2 模型训练模块前端验证测试，文件下载功能在 Chrome 144 上文件名异常  
 **相关 Skill / Related Skill**: claude-code-prompt, enterprise-web
 
@@ -162,6 +162,6 @@ s-2-2 application file download hit the same "route not registered + token not s
 
 | 版本 Version | 日期 Date | 更新 Updates |
 |-------------|-----------|-------------|
-| v1.0 | 2025-02-02 | 初始版本，记录 2 个 open issues（Prompt Spec Fidelity、Change Management Flow）/ Initial version with 2 open issues |
-| v1.1 | 2025-02-04 | 新增 ISSUE-003 浏览器文件下载兼容性 / Added ISSUE-003 Browser File Download Compatibility |
-| v1.2 | 2025-02-05 | ISSUE-003 状态从 🟡 升级为 🟢：下载模式已固化为 Prompt 模板片段 / ISSUE-003 status upgraded from 🟡 to 🟢: download pattern codified as Prompt template snippet |
+| v1.0 | 2026-02-02 | 初始版本，记录 2 个 open issues（Prompt Spec Fidelity、Change Management Flow）/ Initial version with 2 open issues |
+| v1.1 | 2026-02-04 | 新增 ISSUE-003 浏览器文件下载兼容性 / Added ISSUE-003 Browser File Download Compatibility |
+| v1.2 | 2026-02-05 | ISSUE-003 状态从 🟡 升级为 🟢：下载模式已固化为 Prompt 模板片段 / ISSUE-003 status upgraded from 🟡 to 🟢: download pattern codified as Prompt template snippet |

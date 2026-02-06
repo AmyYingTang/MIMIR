@@ -1,8 +1,8 @@
 # Claude Code Prompt Skill
 
 > **版本**: v2.7  
-> **创建日期**: 2025-01-31  
-> **最后更新**: 2025-02-05  
+> **创建日期**: 2026-01-31  
+> **最后更新**: 2026-02-05  
 > **适用场景**: 使用 Claude Code 进行代码生成和项目实现  
 > **前置要求**: 已完成系统设计阶段，有明确的技术规格
 
@@ -448,12 +448,12 @@ Prompt 06: 初始化脚本（建库 + 建表 + 初始数据）
 
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
-| v1.0 | 2025-01-31 | 初始版本，基于用户认证模块实践验证 |
-| v2.0 | 2025-02-01 | 重大更新：模板变量 `{{variable}}` 替代手动输入收集；交互模式标记 `<!-- agent:interactive -->` 支持危险操作确认；Agent 连接测试变量命名约定 |
-| v2.1 | 2025-02-02 | 新增 9 条任务分解质量原则（ValidateRefs、PathAlign、ProgressSignals、UserVerifyGuide、HostEnvAlign、NamingConvention、IdempotentPrompts、UserAcceptGuide、ServiceDepChain），基于 s-1-1 执行经验提炼 |
-| v2.2 | 2025-02-03 | 新增前置关卡 DependencyResolutionGate（依赖决策门）；新增第 10 条质量原则 DiscrepancyReport（文档差异报告），基于 s-1-2 任务分解经验提炼 |
-| v2.3 | 2025-02-03 | 补充 UserAcceptGuide（#8）交付形式要求：最终 Prompt 必须生成独立的用户验收指南文件，基于 s-1-2 执行后验收经验 |
-| v2.4 | 2025-02-04 | 新增第 11 条 FullStackFix（修复必须覆盖全链路每一层）和第 12 条 InlineAPIContract（Prompt 必须内嵌精确 API 模式），基于 s-1-2 前后端联调验证经验 |
-| v2.5 | 2025-02-04 | 新增第 13 条 HostCommitBuild（结束步骤必须在 HOST 执行且排在完成报告之前）；增强 #5 HostEnvAlign 区分开发命令 vs host 命令；调整 Prompt 模板顺序：验证→结束步骤→完成报告→错误处理（防止 Agent 输出完成报告后跳过 git/rebuild），基于 s-1-2/s-1-3 patch prompt 实际执行经验 |
-| v2.6 | 2025-02-05 | 强化 DependencyResolutionGate"就绪"判定标准——按依赖类型定义最低就绪条件，特别是权限类种子数据必须覆盖全角色层（绕过/通过/拒绝），基于 s-2-1 权限测试黑洞经验；新增"已知工具陷阱"段落（T1: Alembic 禁止手动 --rev-id），基于 s-2-1 执行经验 |
-| v2.7 | 2025-02-05 | 新增第 14 条 ErrorCodeFidelity（全局异常处理器必须保留 HTTP 状态码区分度），基于 s-2-2 排查 422→40100 误映射经验；增强 #12 InlineAPIContract 补充参数校验约束子场景（min/max/le/枚举范围），基于 s-2-2 前端硬编码值与后端约束不一致的批量发现 |
+| v1.0 | 2026-01-31 | 初始版本，基于用户认证模块实践验证 |
+| v2.0 | 2026-02-01 | 重大更新：模板变量 `{{variable}}` 替代手动输入收集；交互模式标记 `<!-- agent:interactive -->` 支持危险操作确认；Agent 连接测试变量命名约定 |
+| v2.1 | 2026-02-02 | 新增 9 条任务分解质量原则（ValidateRefs、PathAlign、ProgressSignals、UserVerifyGuide、HostEnvAlign、NamingConvention、IdempotentPrompts、UserAcceptGuide、ServiceDepChain），基于 s-1-1 执行经验提炼 |
+| v2.2 | 2026-02-03 | 新增前置关卡 DependencyResolutionGate（依赖决策门）；新增第 10 条质量原则 DiscrepancyReport（文档差异报告），基于 s-1-2 任务分解经验提炼 |
+| v2.3 | 2026-02-03 | 补充 UserAcceptGuide（#8）交付形式要求：最终 Prompt 必须生成独立的用户验收指南文件，基于 s-1-2 执行后验收经验 |
+| v2.4 | 2026-02-04 | 新增第 11 条 FullStackFix（修复必须覆盖全链路每一层）和第 12 条 InlineAPIContract（Prompt 必须内嵌精确 API 模式），基于 s-1-2 前后端联调验证经验 |
+| v2.5 | 2026-02-04 | 新增第 13 条 HostCommitBuild（结束步骤必须在 HOST 执行且排在完成报告之前）；增强 #5 HostEnvAlign 区分开发命令 vs host 命令；调整 Prompt 模板顺序：验证→结束步骤→完成报告→错误处理（防止 Agent 输出完成报告后跳过 git/rebuild），基于 s-1-2/s-1-3 patch prompt 实际执行经验 |
+| v2.6 | 2026-02-05 | 强化 DependencyResolutionGate"就绪"判定标准——按依赖类型定义最低就绪条件，特别是权限类种子数据必须覆盖全角色层（绕过/通过/拒绝），基于 s-2-1 权限测试黑洞经验；新增"已知工具陷阱"段落（T1: Alembic 禁止手动 --rev-id），基于 s-2-1 执行经验 |
+| v2.7 | 2026-02-05 | 新增第 14 条 ErrorCodeFidelity（全局异常处理器必须保留 HTTP 状态码区分度），基于 s-2-2 排查 422→40100 误映射经验；增强 #12 InlineAPIContract 补充参数校验约束子场景（min/max/le/枚举范围），基于 s-2-2 前端硬编码值与后端约束不一致的批量发现 |

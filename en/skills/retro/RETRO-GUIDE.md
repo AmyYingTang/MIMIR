@@ -291,9 +291,9 @@ When updating methodology files, record in version history:
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-01-27 | Initial version |
-| v1.1 | 2025-02-15 | Added database timezone checklist item | XX Project |
-| v1.2 | 2025-03-01 | Added large file upload decision branch | YY Project |
+| v1.0 | 2026-01-27 | Initial version |
+| v1.1 | 2026-02-15 | Added database timezone checklist item | XX Project |
+| v1.2 | 2026-03-01 | Added large file upload decision branch | YY Project |
 ```
 
 ---
@@ -315,4 +315,4 @@ When user says "I want to do a project retrospective" or "update methodology":
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-01-27 | Initial version |
+| v1.0 | 2026-01-27 | Initial version |

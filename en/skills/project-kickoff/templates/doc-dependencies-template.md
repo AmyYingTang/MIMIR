@@ -198,7 +198,7 @@ When UI prototype adds a new Admin feature:
 
 **Changed Document**: UI Prototype v2.0
 **Change Description**: Added Admin task queue management page
-**Change Date**: 2025-01-28
+**Change Date**: 2026-01-28
 
 ### Auto-Check Items
 - [x] api-design.md → ❌ Missing cancel/retry/logs endpoints
@@ -225,4 +225,4 @@ When UI prototype adds a new Admin feature:
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-01-28 | Initial version |
+| v1.0 | 2026-01-28 | Initial version |

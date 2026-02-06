@@ -1,7 +1,7 @@
 # Retrospective: Aggregation Document Drift
 
 > **Project**: MIMIR Methodology Repository  
-> **Date**: 2025-02-04  
+> **Date**: 2026-02-04  
 > **Type**: Process Improvement (Dogfooding)  
 > **Contributor**: Project Team
 
@@ -13,10 +13,10 @@ MIMIR's own documentation suffered from the exact consistency problem it teaches
 
 ### The Incident
 
-1. v1.3 (2025-01-30): meta-knowledge/ skill added. SKILL-INDEX updated.
-2. v1.4 (2025-01-31): claude-code-prompt/ skill added. README updated. **SKILL-INDEX not updated.**
-3. v1.5–v1.7 (2025-02-01~02): Multiple skill updates, UI/UX principles added. READMEs updated each time. **SKILL-INDEX still at v1.3.**
-4. v1.8 (2025-02-04): review-agent/ skill added. Discovery: SKILL-INDEX structure tree was missing 3 skill directories entirely.
+1. v1.3 (2026-01-30): meta-knowledge/ skill added. SKILL-INDEX updated.
+2. v1.4 (2026-01-31): claude-code-prompt/ skill added. README updated. **SKILL-INDEX not updated.**
+3. v1.5–v1.7 (2026-02-01~02): Multiple skill updates, UI/UX principles added. READMEs updated each time. **SKILL-INDEX still at v1.3.**
+4. v1.8 (2026-02-04): review-agent/ skill added. Discovery: SKILL-INDEX structure tree was missing 3 skill directories entirely.
 
 The irony: MIMIR contains `doc-dependencies-template.md` and `change-review-checklist-template.md` specifically designed to prevent this. They were not applied to MIMIR's own files.
 
@@ -134,4 +134,4 @@ Add these as explicit checklist items in your commit/review process.
 
 | Version | Date | Updates |
 |---------|------|---------|
-| v1.0 | 2025-02-04 | Initial retrospective. Extracted from MIMIR dogfooding experience |
+| v1.0 | 2026-02-04 | Initial retrospective. Extracted from MIMIR dogfooding experience |

@@ -103,7 +103,7 @@ POST /api/v1/users/create       # 冗余动词
   "code": 0,
   "message": "success",
   "data": { ... },
-  "timestamp": "2025-01-27T10:00:00Z",
+  "timestamp": "2026-01-27T10:00:00Z",
   "request_id": "req_xxx"
 }
 
@@ -129,7 +129,7 @@ POST /api/v1/users/create       # 冗余动词
   "errors": [
     { "field": "email", "message": "邮箱格式不正确" }
   ],
-  "timestamp": "2025-01-27T10:00:00Z",
+  "timestamp": "2026-01-27T10:00:00Z",
   "request_id": "req_xxx"
 }
 ```
@@ -484,4 +484,4 @@ security_headers = {
 
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
-| v1.0 | 2025-01-27 | 初始版本 |
+| v1.0 | 2026-01-27 | 初始版本 |

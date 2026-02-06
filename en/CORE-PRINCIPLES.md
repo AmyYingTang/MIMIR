@@ -1,8 +1,8 @@
 # MIMIR Core Principles
 
 > **Version**: v1.1  
-> **Created**: 2025-01-31  
-> **Last Updated**: 2025-02-01  
+> **Created**: 2026-01-31  
+> **Last Updated**: 2026-02-01  
 > **Source**: Task Decomposition Validation Practice + Agent Automation Experiment
 
 ---
@@ -55,7 +55,7 @@ When designing AI-led task flows, maximize AI autonomy and minimize user operati
 
 ### Origin
 
-This principle comes from the Task Decomposition validation practice on 2025-01-31. When designing Claude Code prompts for user authentication module, the initial design assumed users would manually execute technical steps. After review, changed to AI-led execution with users only providing necessary inputs, significantly improving effectiveness.
+This principle comes from the Task Decomposition validation practice on 2026-01-31. When designing Claude Code prompts for user authentication module, the initial design assumed users would manually execute technical steps. After review, changed to AI-led execution with users only providing necessary inputs, significantly improving effectiveness.
 
 ---
 
@@ -115,8 +115,8 @@ This principle comes from the design of 6 Prompts in the Task Decomposition vali
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v1.0 | 2025-01-31 | Initial version with 3 core principles |
-| v1.1 | 2025-02-01 | Added Principle 4: Validate Inputs Early (from Agent automation experiment) |
+| v1.0 | 2026-01-31 | Initial version with 3 core principles |
+| v1.1 | 2026-02-01 | Added Principle 4: Validate Inputs Early (from Agent automation experiment) |
 
 ---
 
@@ -154,4 +154,4 @@ When users provide external system connection info (database, API, service endpo
 
 ### Origin
 
-This principle comes from the Agent automation experiment on 2025-02-01. The user entered an incorrect MySQL password, and the Agent filled the wrong password into all Prompt templates. The error wasn't discovered until step 6 (init script) when the connection failed, requiring manual `.env` file repair and re-execution. After adding connection testing, errors are caught and correctable at the input stage.
+This principle comes from the Agent automation experiment on 2026-02-01. The user entered an incorrect MySQL password, and the Agent filled the wrong password into all Prompt templates. The error wasn't discovered until step 6 (init script) when the connection failed, requiring manual `.env` file repair and re-execution. After adding connection testing, errors are caught and correctable at the input stage.

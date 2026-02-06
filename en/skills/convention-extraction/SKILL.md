@@ -1,8 +1,8 @@
 # Skill: Convention Extraction — Cross-Module Consistency
 
 > **Version**: v0.2  
-> **Created**: 2025-02-04  
-> **Last Updated**: 2025-02-05  
+> **Created**: 2026-02-04  
+> **Last Updated**: 2026-02-05  
 > **Category**: Build (Pre-Prompt)  
 > **Runtime**: Claude Code CLI or manual extraction
 
@@ -381,5 +381,5 @@ s-1-2 review discovered `FUNCTION_TYPE_NAMES` duplicated in three places → rec
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v0.1 | 2025-02-04 | Initial version. 5 extraction dimensions, 3 extraction methods, prompt template |
-| v0.2 | 2025-02-05 | Added "Usage Pattern: Conventions as Cross-Module Fix Queue", validated by s-1-2 review → s-2-1 closed-loop fix practice |
+| v0.1 | 2026-02-04 | Initial version. 5 extraction dimensions, 3 extraction methods, prompt template |
+| v0.2 | 2026-02-05 | Added "Usage Pattern: Conventions as Cross-Module Fix Queue", validated by s-1-2 review → s-2-1 closed-loop fix practice |

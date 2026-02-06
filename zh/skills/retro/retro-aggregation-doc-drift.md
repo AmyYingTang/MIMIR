@@ -1,7 +1,7 @@
 # 复盘记录：聚合性文档漂移
 
 > **项目**: MIMIR 方法论仓库  
-> **日期**: 2025-02-04  
+> **日期**: 2026-02-04  
 > **类型**: 流程改进（Dogfooding）  
 > **贡献者**: 项目团队
 
@@ -13,10 +13,10 @@ MIMIR 自己的文档遭遇了它教别人避免的一致性问题。SKILL-INDEX
 
 ### 事件经过
 
-1. v1.3 (2025-01-30): 添加 meta-knowledge/ skill。SKILL-INDEX 已更新。
-2. v1.4 (2025-01-31): 添加 claude-code-prompt/ skill。README 已更新。**SKILL-INDEX 未更新。**
-3. v1.5–v1.7 (2025-02-01~02): 多次 skill 更新，添加 UI/UX 原则。每次都更新了 README。**SKILL-INDEX 仍在 v1.3。**
-4. v1.8 (2025-02-04): 添加 review-agent/ skill。发现 SKILL-INDEX 结构树完全缺失 3 个 skill 目录。
+1. v1.3 (2026-01-30): 添加 meta-knowledge/ skill。SKILL-INDEX 已更新。
+2. v1.4 (2026-01-31): 添加 claude-code-prompt/ skill。README 已更新。**SKILL-INDEX 未更新。**
+3. v1.5–v1.7 (2026-02-01~02): 多次 skill 更新，添加 UI/UX 原则。每次都更新了 README。**SKILL-INDEX 仍在 v1.3。**
+4. v1.8 (2026-02-04): 添加 review-agent/ skill。发现 SKILL-INDEX 结构树完全缺失 3 个 skill 目录。
 
 讽刺的是：MIMIR 里包含 `doc-dependencies-template.md` 和 `change-review-checklist-template.md`，专门用来防止这种问题。但它们没有被应用到 MIMIR 自己的文件上。
 
@@ -134,4 +134,4 @@ MIMIR 自己的文档遭遇了它教别人避免的一致性问题。SKILL-INDEX
 
 | 版本 | 日期 | 更新内容 |
 |------|------|----------|
-| v1.0 | 2025-02-04 | 初始复盘。从 MIMIR dogfooding 经验中提取 |
+| v1.0 | 2026-02-04 | 初始复盘。从 MIMIR dogfooding 经验中提取 |
